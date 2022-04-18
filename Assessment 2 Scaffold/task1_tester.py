@@ -47,18 +47,6 @@ class TestTask1(TesterBase):
         except Exception as e:
             self.verificationErrors.append(f"String method failed. {e}")
 
-    def test_damage_taken(self):
-        from pokemon import Charmander, Squirtle
-        c = Charmander()
-        s = Squirtle()
-        try:
-            c.attacked_by(s)
-            damage = c.hp
-            if damage != 6:
-                self.verificationErrors.append(f"Damage taken method did not return correct float: {damage}")
-        except Exception as e:
-            self.verificationErrors.append(f"Damage taken method failed. {e}")
-
 
 
 if __name__ == '__main__':

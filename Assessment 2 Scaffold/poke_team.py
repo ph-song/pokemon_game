@@ -68,11 +68,10 @@ class PokeTeam:
             self.team.append(Bulbasaur())
         for num in range(squir):
             self.team.append(Squirtle())
+    
+    def is_defeated(self)-> bool:
+        for i in range(len(self.team)):
+            if not self.team.array[i].is_faint:
+                return True
+        return False
             
-            
-#a = PokeTeam('alo')
-#a.team = CircularQueue(1)
-#a.team.append(Charmander())
-#print(a.team.array[0])
-#a.choose_team(0)
-#print(a)

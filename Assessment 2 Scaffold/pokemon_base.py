@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from typing import Type
+
 class PokemonBase(ABC):
     INITIAL_LEVEL = 1
 
@@ -9,12 +11,14 @@ class PokemonBase(ABC):
         self.level = self.INITIAL_LEVEL
         self.name = name
         self.is_faint = False
+        #is it okay to initialize it to None
 
     @abstractmethod
     def __str__(self)->str:
         pass
 
     def get_type(self):
+        """return pokemon type"""
         return self.poke_type
 
     def set_hp(self, hp: int) -> None:
@@ -36,19 +40,27 @@ class PokemonBase(ABC):
         """return pokemon level"""
         return self.level
 
-    def check_faint(self):
+    def check_faint(self, defencer: 'PokemonBase'):
         """if hp <= 0 pokemon faint = True, else faint = False"""
-        if self.hp <= 0:
-            self.is_faint = True
+        if defencer.hp <= 0:
+            defencer.is_faint = True
+            self.level += 1
         else:
-            self.is_faint = False
+            defencer.is_faint = False
 
-    @abstractmethod
-    def attacked_by(damage: int)-> None:
-        """calculate pokemon damage"""
-        pass
+    def attacked(self, defencer: "PokemonBase") -> None:
+        attacker_attack = self.attack
+        attack_multiplier = self.damage_multiplier(self.poke_type, defencer.poke_type)
+        attacker_attack *= attack_multiplier
+
+        if self.attack > defencer.defence:
+            defencer.hp -= attacker_attack
+        else:
+            defencer.hp -= attacker_attack//2
+        self.check_faint(defencer)
 
     def damage_multiplier(self, defencer_type: str, attacker_type: str) -> float:
+        """reutrn multiplier of attack based on pokemon type of attacker and defencer"""
         effectiveness = {
             'Fire': {'Fire': 1, 'Water': 0.5, 'Grass': 2}, 
             'Water': {'Fire': 2, 'Water': 1, 'Grass': 0.5}, 
@@ -56,4 +68,3 @@ class PokemonBase(ABC):
             }
 
         return effectiveness[defencer_type][attacker_type]
-
