@@ -51,3 +51,7 @@ class ArrayR(Generic[T]):
         :pre: index in between 0 and length - self.array[] checks it
         """
         self.array[index] = value
+
+a = ArrayR(3)
+a[0]=1
+print(a[0])

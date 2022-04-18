@@ -14,7 +14,7 @@ class TestTask2(TesterBase):
         try:
             with captured_output("4 4 1\n1 1 1") as (inp, out, err):
                 # 4 4 1 should fail, since it is too many pokemon.
-                # So 1 1 1 should be the correct team.
+                # So 1 1 1 should be the correct team
                 team.choose_team(0, None)
         except Exception as e:
             self.verificationErrors.append(f"Ash's team could not be chosen: {str(e)}.")
