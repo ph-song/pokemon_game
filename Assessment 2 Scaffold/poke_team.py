@@ -18,7 +18,7 @@ class PokeTeam:
         for i in range(len(self.team)):
             ret += self.team.array[i].__str__() 
             if i != len(self.team) -1:
-                ret += ", "
+                ret += "\n"
         return ret
 
     def get_trainer_name(self):

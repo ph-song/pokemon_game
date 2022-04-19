@@ -1,3 +1,4 @@
+from re import S
 from pokemon_base import PokemonBase
 from typing import Type 
 
@@ -21,12 +22,11 @@ class Charmander(PokemonBase):
         pokemon initiate attack, argument is defenser
         hp of attacker and defenser both must be positive
         """
-        attacker_attack = int(self.get_attack() * self.damage_multiplier(defender))
-
+        attacker_attack = self.get_attack() * self.damage_multiplier(defender)
         if self.attack > defender.defence:
-            defender.set_hp(self.get_hp() - attacker_attack)
+            defender.set_hp(defender.get_hp() - attacker_attack)
         else:
-            defender.set_hp(self.get_hp() - attacker_attack//2)
+            defender.set_hp(defender.get_hp() - attacker_attack//2)
 
 
 
@@ -50,12 +50,12 @@ class Bulbasaur(PokemonBase):
         pokemon initiate attack, argument is defenser
         hp of attacker and defenser both must be positive
         """
-        attacker_attack = int(self.get_attack() * self.damage_multiplier(defender))
+        attacker_attack = self.get_attack() * self.damage_multiplier(defender)
 
         if self.attack > defender.get_defence() + 5:
-            defender.set_hp(self.get_hp() - attacker_attack)
+            defender.set_hp(defender.get_hp() - attacker_attack)
         else:
-            defender.set_hp(self.get_hp() - attacker_attack//2)
+            defender.set_hp(defender.get_hp() - attacker_attack//2)
 
 class Squirtle(PokemonBase):
 
@@ -77,13 +77,16 @@ class Squirtle(PokemonBase):
         pokemon initiate attack, argument is defenser
         hp of attacker and defenser both must be positive
         """
-        attacker_attack = int(self.get_attack() * self.damage_multiplier(defender))
+        attacker_attack = self.get_attack() * self.damage_multiplier(defender)
 
         if self.attack > defender.get_defence() * 2:
-            defender.set_hp(self.get_hp() - attacker_attack)
+            defender.set_hp(defender.get_hp() - attacker_attack)
         else:
-            defender.set_hp(self.get_hp() - attacker_attack//2)
+            defender.set_hp(defender.get_hp() - attacker_attack//2)
 
-c = Charmander()
-b = Bulbasaur()
-s = Squirtle()
+s1 = Squirtle()
+b1 = Bulbasaur()
+b1.attacked(s1)
+s1.attacked(b1)
+
+print(s1, b1)

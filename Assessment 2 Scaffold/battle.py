@@ -28,22 +28,25 @@ class Battle:
             if not defender.is_fainted():
                 defender.attacked(attacker)
         else:
+            #print('check', poke1, poke2)
             poke1.attacked(poke2)
+            #print('check 1', poke1, poke2)
             poke2.attacked(poke1)
+            #print('check 2', poke1, poke2)
         
-        if not (poke1.is_fainted() and poke2.is_fainted()):
+        if not poke1.is_fainted() and not poke2.is_fainted():
+            #print('check 4', poke1.get_hp(), poke2.get_hp())
             poke1.set_hp(poke1.get_hp()-1)
             poke2.set_hp(poke2.get_hp()-1)
+            #print('check', poke1.get_hp(), poke2.get_hp())
              
         if poke1.is_fainted() and poke2.is_fainted():
             return 
         
         elif poke1.is_fainted():
             poke2.set_level(poke2.get_level() +1)
-            self.player2.team.push(poke2)
         elif poke2.is_fainted():
-            poke1.set_level(poke1.get_level() + 1)
-            self.player1.team.push(poke1)
+            poke1.set_level(poke1.get_level() +1)
 
     #task 3.2 
     def set_mode_battle(self)-> str:
@@ -57,6 +60,12 @@ class Battle:
             poke1 = self.player1.team.pop()        
             poke2 = self.player2.team.pop()
             self.fight(poke1, poke2)
+            if not poke1.is_fainted():
+                self.player1.team.push(poke1)
+                #print(poke1.is_fainted(), 'check')
+            if not poke2.is_fainted():
+                self.player2.team.push(poke2)
+                #print(poke2.is_fainted(), 'check')
         return self.result()
 
     #task 4  
@@ -69,10 +78,15 @@ class Battle:
         #battle
         while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
             poke1 = self.player1.team.serve()
-            poke2 = self.player2.team.serve()            
-            pass
-
-        print(self.result())
+            poke2 = self.player2.team.serve()
+            self.fight(poke1, poke2)
+            if not poke1.is_fainted():
+                #print(poke1.is_fainted(), 1)
+                self.player1.team.append(poke1)
+            if not poke2.is_fainted():
+                #print(poke2.is_fainted(), 2)
+                self.player2.team.append(poke2)
+        return self.result()
     
 
     #task 5
@@ -84,13 +98,14 @@ class Battle:
         while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
             pass
 
-        print(self.result())
+        return self.result()
 
 
     def result(self)-> str:
         """check winner"""
         p1_is_defeated = self.player1.team.is_empty()
         p2_is_defeated = self.player2.team.is_empty()
+        #print(p1_is_defeated,p2_is_defeated)
         if p1_is_defeated and p2_is_defeated:
             return "Draw"
         elif p1_is_defeated: #and not team2_is_empty????
@@ -99,7 +114,12 @@ class Battle:
             return self.player1.get_trainer_name()
     
 
-#a = Battle('Han Guang', 'Wing Sze')
-#a.set_mode_battle()
+a = Battle('Han Guang', 'Wing Sze')
+a.rotating_mode_battle()
+print(a.player1)
+print(a.player2)
+#2 2 1 # 0 2 1
 
-        
+#b = Battle("Brock", "Gary")
+#result = b.rotating_mode_battle()
+#2 2 1 #0 2 1 #'Brock' 
