@@ -7,64 +7,70 @@ class Battle:
 
     #task 3.1
     def __init__(self, trainer_one_name: str, trainer_two_name: str)->None :
-        self.team1 = PokeTeam(trainer_one_name)
-        self.team2 = PokeTeam(trainer_two_name)
+        self.player1 = PokeTeam(trainer_one_name)
+        self.player2 = PokeTeam(trainer_two_name)
         self.battle_mode = None
+
+    
     
     def fight(self, poke1: Type[PokemonBase], poke2: Type[PokemonBase]):
         """2 pokemon fight"""
-        #can be optimized by passing no argument 
-        if poke1.speed > poke2.speed:
+        #can be optimized by passing no argument
+        
+        if poke1.get_speed() != poke2.get_speed():
+            if poke1.get_speed() > poke2.get_speed():
+                attacker = poke1
+                defender = poke2
+            elif poke1.get_speed() < poke2.get_speed():
+                defender = poke1
+                attacker = poke2
+            attacker.attacked(defender)
+            if not defender.is_fainted():
+                defender.attacked(attacker)
+        else:
             poke1.attacked(poke2)
-        elif poke2.speed > poke1.speed:
             poke2.attacked(poke1)
-        elif poke1.speed == poke2.speed:
-            poke1.attacked(poke2)
-            poke2.attacked(poke1)
-            #what if both faint? level up issue 
+        
+        if not (poke1.is_fainted() and poke2.is_fainted()):
+            poke1.set_hp(poke1.get_hp()-1)
+            poke2.set_hp(poke2.get_hp()-1)
+             
+        if poke1.is_fainted() and poke2.is_fainted():
+            return 
+        
+        elif poke1.is_fainted():
+            poke2.set_level(poke2.get_level() +1)
+            self.player2.team.push(poke2)
+        elif poke2.is_fainted():
+            poke1.set_level(poke1.get_level() + 1)
+            self.player1.team.push(poke1)
 
     #task 3.2 
-    def set_mode_battle(self)-> None:
+    def set_mode_battle(self)-> str:
         """fight in battle mode 0, basic mode"""
         #choose team
-        self.team1.choose_team(0)
-        self.team2.choose_team(0)
-        
-        #serve
-        team1_poke = self.team1.team.serve()
-        team2_poke = self.team2.team.serve()
-
+        self.player1.choose_team(0)
+        self.player2.choose_team(0)
+    
         #batle
-        while not (self.team1.is_defeated() or self.team2.is_defeated()):
-            if team1_poke.is_faint:
-                self.team1.team.append(team1_poke)
-                team1_poke = self.team1.team.serve()
-            if team2_poke.is_faint: #both can fiant at the same time when speed are same
-                self.team2.team.append(team2_poke)
-                team2_poke = self.team2.team.serve()
-            while not (team1_poke.is_faint or team2_poke.is_faint):
-                self.fight(team1_poke, team2_poke)
- 
-        print(self.result())
+        while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
+            poke1 = self.player1.team.pop()        
+            poke2 = self.player2.team.pop()
+            self.fight(poke1, poke2)
+        return self.result()
 
     #task 4  
     def rotating_mode_battle(self) -> None:
         """fight in battle mode 1, rotating mode"""
         #choose team
-        self.team1.choose_team(1)
-        self.team2.choose_team(1)
+        self.player1.choose_team(1)
+        self.player2.choose_team(1)
 
         #battle
-        while self.team1.is_defeated() or self.team2.team.is_defeated():
-            team1_poke = self.team1.team.serve()
-            team2_poke = self.team2.team.serve()
-
-            team2_poke.attacked(team1_poke)
-            if not team1_poke.is_faint:
-                team1_poke = self.team1.append(team1_poke)
-            if not team2_poke.is_faint:
-                team2_poke = self.team2.append(team2_poke)
-            
+        while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
+            poke1 = self.player1.team.serve()
+            poke2 = self.player2.team.serve()            
+            pass
 
         print(self.result())
     
@@ -72,28 +78,28 @@ class Battle:
     #task 5
     def optimised_mode_battle(self, criterion_team1: str, criterion_team2: str) ->str:
         """fight in battle mode 2, optimised mode"""
-        self.team1.choose_team(2, criterion_team1)
-        self.team2.choose_team(2, criterion_team2)
+        self.player1.choose_team(2, criterion_team1)
+        self.player2.choose_team(2, criterion_team2)
+
+        while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
+            pass
 
         print(self.result())
 
 
     def result(self)-> str:
         """check winner"""
-        if self.team1.is_defeated() and self.team2.is_defeated():
+        p1_is_defeated = self.player1.team.is_empty()
+        p2_is_defeated = self.player2.team.is_empty()
+        if p1_is_defeated and p2_is_defeated:
             return "Draw"
-        elif self.team1.is_defeated():
-            return self.team2.trainer_name
-        elif self.team2.is_defeated():
-            return self.team1.trainer_name
+        elif p1_is_defeated: #and not team2_is_empty????
+            return self.player2.get_trainer_name()
+        elif p2_is_defeated:
+            return self.player1.get_trainer_name()
     
 
-a = Battle('Ali', 'Ah Khaw')
-a.set_mode_battle()
-print(a.team1)
-print(a.team2)
-
-#b = Battle('Han Guang', 'Wing Sze')
-#b.rotating_mode_battle
+#a = Battle('Han Guang', 'Wing Sze')
+#a.set_mode_battle()
 
         
