@@ -16,34 +16,36 @@ class PokemonBase(ABC):
         self.level = self.INITIAL_LEVEL
         self.name = name
 
-        #unsure instances to initialize
+        #unsure attributes to initialize
+        #should these attributes be instantiated at PokemonBase or Pokemon
         self.attack = attack
         self.defence = defence
         self.speed = speed
         
     def __str__(self)->str:
+        """string method of PokemonBase"""
         return f"{self.get_name()}'s HP = {self.get_hp()} and level = {self.get_level()}"
 
     def get_type(self):
-        """return pokemon type"""
+        """pokemon type getter"""
         return self.poke_type
 
     def get_name(self):
-        """return pokemon name"""
+        """pokemon name getter"""
         return self.name
 
     def set_hp(self, hp: int) -> None:
-        """set pokemon hp"""
+        """pokemon hp setter"""
         self.hp = hp
 
     def get_hp(self) ->int:
-        """return pokemon hp"""
+        """pokemon hp getter"""
         return self.hp
 
     def set_level(self, level) -> None:
         """
-        set pokemon level
-        precondition: level >= 1
+        pokemon level setter
+        :precondition: level >= 1
         """
         self.level = level
 
@@ -56,6 +58,7 @@ class PokemonBase(ABC):
         return self.attack
     
     def get_defence(self):
+        """pokemon defence getter"""
         return self.defence
     
     def get_speed(self):
@@ -63,11 +66,8 @@ class PokemonBase(ABC):
         return self.speed
 
     def is_fainted(self):
+        """check if pokemon is fainted"""
         return self.hp<=0
-
-    def update_status(self, defender: "PokemonBase"): #check_faint
-        """update status of is_fainted & level"""
-        pass
 
     @abstractmethod
     def attacked(self, defender: "PokemonBase") -> None:

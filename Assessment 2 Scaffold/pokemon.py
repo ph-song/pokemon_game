@@ -1,4 +1,3 @@
-from re import S
 from pokemon_base import PokemonBase
 from typing import Type 
 
@@ -50,7 +49,7 @@ class Bulbasaur(PokemonBase):
         pokemon initiate attack, argument is defenser
         hp of attacker and defenser both must be positive
         """
-        attacker_attack = self.get_attack() * self.damage_multiplier(defender)
+        attacker_attack = self.get_attack() * self.damage_multiplier(defender) 
 
         if self.attack > defender.get_defence() + 5:
             defender.set_hp(defender.get_hp() - attacker_attack)
