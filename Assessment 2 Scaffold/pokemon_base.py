@@ -70,7 +70,7 @@ class PokemonBase(ABC):
         return self.hp<=0
 
     @abstractmethod
-    def attacked(self, defender: "PokemonBase") -> None:
+    def attacked_by(self, attacker: "PokemonBase") -> None:
         """
         pokemon initiate attack, argument is defenser
         hp of attacker and defenser both must be positive

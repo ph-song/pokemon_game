@@ -16,16 +16,16 @@ class Charmander(PokemonBase):
         self.defence = self.DEFENCE
         self.speed = self.speed + self.level
 
-    def attacked(self, defender: Type[PokemonBase]) -> None:
+    def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
         pokemon initiate attack, argument is defenser
         hp of attacker and defenser both must be positive
         """
-        attacker_attack = self.get_attack() * self.damage_multiplier(defender)
-        if self.attack > defender.defence:
-            defender.set_hp(defender.get_hp() - attacker_attack)
+        attacker_damage = attacker.get_attack() * attacker.damage_multiplier(self)
+        if attacker_damage > self.get_defence():
+            self.set_hp(self.get_hp() - attacker_damage)
         else:
-            defender.set_hp(defender.get_hp() - attacker_attack//2)
+            self.set_hp(self.get_hp() - attacker_damage//2)
 
 
 
@@ -44,17 +44,16 @@ class Bulbasaur(PokemonBase):
         self.defence = self.defence
         self.speed = self.speed + self.level//2
 
-    def attacked(self, defender: Type[PokemonBase]) -> None:
+    def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
         pokemon initiate attack, argument is defenser
         hp of attacker and defenser both must be positive
         """
-        attacker_attack = self.get_attack() * self.damage_multiplier(defender) 
-
-        if self.attack > defender.get_defence() + 5:
-            defender.set_hp(defender.get_hp() - attacker_attack)
+        attacker_damage = attacker.get_attack() * attacker.damage_multiplier(self)
+        if attacker_damage > self.get_defence() + 5 :
+            self.set_hp(self.get_hp() - attacker_damage)
         else:
-            defender.set_hp(defender.get_hp() - attacker_attack//2)
+            self.set_hp(self.get_hp() - attacker_damage//2)
 
 class Squirtle(PokemonBase):
 
@@ -71,21 +70,20 @@ class Squirtle(PokemonBase):
         self.defence = self.defence + self.level
         self.speed = self.speed
     
-    def attacked(self, defender: Type[PokemonBase]) -> None:
+    def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
         pokemon initiate attack, argument is defenser
         hp of attacker and defenser both must be positive
         """
-        attacker_attack = self.get_attack() * self.damage_multiplier(defender)
-
-        if self.attack > defender.get_defence() * 2:
-            defender.set_hp(defender.get_hp() - attacker_attack)
+        attacker_damage = attacker.get_attack() * attacker.damage_multiplier(self)
+        if attacker_damage > self.get_defence() * 2:
+            self.set_hp(self.get_hp() - attacker_damage)
         else:
-            defender.set_hp(defender.get_hp() - attacker_attack//2)
+            self.set_hp(self.get_hp() - attacker_damage//2)
 
-s1 = Squirtle()
+
 b1 = Bulbasaur()
-b1.attacked(s1)
-s1.attacked(b1)
-
-print(s1, b1)
+b2 = Bulbasaur()
+print(b1)
+b1.attacked_by(b2)
+print(b1)

@@ -9,6 +9,7 @@ from sorted_list import *
 __author__ = 'Maria Garcia de la Banda and Brendon Taylor. Modified by Alexey Ignatiev and Graeme Gange'
 __docformat__ = 'reStructuredText'
 
+
 class ArraySortedList(SortedList[T]):
     """ SortedList ADT implemented with arrays. """
     MIN_CAPACITY = 1
@@ -115,7 +116,7 @@ class ArraySortedList(SortedList[T]):
         high = len(self) - 1
 
         while low <= high:
-            mid = (low + high) // 2
+            mid = low + (high - low) // 2
             if self[mid].key < item.key:
                 low = mid + 1
             elif self[mid].key > item.key:

@@ -1,7 +1,8 @@
 from typing import Type
 from poke_team import PokeTeam
 from pokemon_base import PokemonBase
-
+from array_sorted_list import ArraySortedList
+from sorted_list import ListItem
 
 class Battle:
 
@@ -20,26 +21,27 @@ class Battle:
             elif poke1.get_speed() < poke2.get_speed():
                 defender = poke1
                 attacker = poke2
-            attacker.attacked(defender)
+            defender.attacked_by(attacker)
 
             #defencer retort
             if not defender.is_fainted():
-                defender.attacked(attacker)
+                attacker.attacked_by(defender)
         
         #poke1 and poke2 have equal speed and attack each other
         else:
-            poke1.attacked(poke2)
-            poke2.attacked(poke1)
+            poke1.attacked_by(poke2)
+            poke2.attacked_by(poke1)
+        
         
         #if both are still alive 
         if not poke1.is_fainted() and not poke2.is_fainted():
             poke1.set_hp(poke1.get_hp()-1)
             poke2.set_hp(poke2.get_hp()-1)
-        
-        #if both are fainted **elif or if
+            #if both are fainted
+            if poke1.is_fainted() and poke2.is_fainted():
+                return 
         elif poke1.is_fainted() and poke2.is_fainted():
-            return 
-        
+            return     
         #if one poke fainted, another still live 
         elif poke1.is_fainted():
             poke2.set_level(poke2.get_level() +1)
@@ -98,16 +100,32 @@ class Battle:
         """fight in battle mode 2, optimised mode"""
         self.player1.choose_team(2, criterion_team1)
         self.player2.choose_team(2, criterion_team2)
-
+        i =1
         while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
-            pass
+            #print("round", i)
+            #print(len(self.player2.team))
+            poke1 = (self.player1.team.delete_at_index(len(self.player1.team)-1)).value
+            poke2 = (self.player2.team.delete_at_index(len(self.player2.team)-1)).value
+            #print('before \n', self.player2.team) #len(self.player1.team) +1 ,len(self.player2.team)+1, poke1, '\n', poke2)
 
+            self.fight(poke1, poke2) #pokemon fight with each other
+
+            #append not fainted pokemon back to queue
+            
+            if not poke1.is_fainted():
+                key = self.player1.get_criterion_val(poke1)
+                self.player1.team.add(ListItem(poke1, key))
+            if not poke2.is_fainted():
+                key = self.player1.get_criterion_val(poke2)
+                self.player2.team.add(ListItem(poke2, key))          
+            i +=1
+            #print('after \n', poke1, '\n', poke2)
+            print('after \n', self.player2.team)
         return self.result()
 
 
     def result(self)-> str:
         """return trainer name of won team"""
-
         #check if the player is defeated
         p1_is_defeated = self.player1.team.is_empty()
         p2_is_defeated = self.player2.team.is_empty()
@@ -120,13 +138,19 @@ class Battle:
         elif p2_is_defeated:
             return self.player1.get_trainer_name()
     
+"""
+a = Battle('Han Guang', 'Wing Sze')
+print(a.set_mode_battle())
+print(a.player2)
 
-#a = Battle('Han Guang', 'Wing Sze')
-#print(a.rotating_mode_battle())
-
-#print(a.player2)
-#2 2 1 # 0 2 1
-
-#b = Battle("Brock", "Gary")
-#result = b.rotating_mode_battle()
+b = Battle("Brock", "Gary")
+print(b.rotating_mode_battle())
 #2 2 1 #0 2 1 #'Brock' 
+"""
+c = Battle("haha", 'hehe')
+
+print(c.optimised_mode_battle('hp', 'level'))
+print(c.player1.team)
+""""""
+#2 2 1 #0 2 1 
+

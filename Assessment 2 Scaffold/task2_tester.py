@@ -31,11 +31,43 @@ class TestTask2(TesterBase):
             self.verificationErrors.append(f"PokeTeam does not print prompt correctly.")
         try:
             assert str(
-                team) == "Charmander's HP = 7 and level = 1, Bulbasaur's HP = 9 and level = 1, Squirtle's HP = 8 and level = 1"
+                team) == "Charmander's HP = 7 and level = 1, Bulbasaur's HP = 9 and level = 1, Squirtle's HP = 8 and " \
+                         "level = 1"
         except AssertionError:
             self.verificationErrors.append(f"PokeTeam does not handle limit correctly. {str(team)}")
 
     def test_limit2(self):
+        from poke_team import PokeTeam
+        try:
+            team = PokeTeam("Ash")
+        except Exception as e:
+            self.verificationErrors.append(f"Ash's team could not be instantiated: {str(e)}.")
+            return
+        try:
+            with captured_output("0 7 0\n2 1 1") as (inp, out, err):
+                # 4 4 1 should fail, since it is too many pokemon.
+                # So 1 1 1 should be the correct team.
+                team.choose_team(0, None)
+        except Exception as e:
+            self.verificationErrors.append(f"Ash's team could not be chosen: {str(e)}.")
+            return
+        output = out.getvalue().strip()
+
+        # Check the prompt is being printed.
+        try:
+            assert "is the number of Charmanders" in output
+            assert "is the number of Bulbasaurs" in output
+            assert "is the number of Squirtles" in output
+        except AssertionError:
+            self.verificationErrors.append(f"PokeTeam does not print prompt correctly.")
+        try:
+            assert str(
+                team) == "Charmander's HP = 7 and level = 1, Charmander's HP = 7 and level = 1, Bulbasaur's HP = 9 " \
+                         "and level = 1, Squirtle's HP = 8 and level = 1"
+        except AssertionError:
+            self.verificationErrors.append(f"PokeTeam does not handle limit correctly. {str(team)}")
+
+    def test_limit3(self):
         from poke_team import PokeTeam
         try:
             team = PokeTeam("Ash")
