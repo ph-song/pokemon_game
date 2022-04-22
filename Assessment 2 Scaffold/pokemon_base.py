@@ -16,9 +16,8 @@ class PokemonBase(ABC):
         self.level = self.INITIAL_LEVEL
         self.name = name
 
-        #unsure attributes to initialize
         #should these attributes be instantiated at PokemonBase or Pokemon
-        self.attack = attack
+        self.attack = attack 
         self.defence = defence
         self.speed = speed
         
@@ -53,17 +52,20 @@ class PokemonBase(ABC):
         """return pokemon level"""
         return self.level
 
+    @abstractmethod
     def get_attack(self):
         """return pokemon attack"""
-        return self.attack
+        pass
     
+    @abstractmethod
     def get_defence(self):
         """pokemon defence getter"""
-        return self.defence
+        pass
     
+    @abstractmethod
     def get_speed(self):
         """return pokemon speed"""
-        return self.speed
+        pass
 
     def is_fainted(self):
         """check if pokemon is fainted"""

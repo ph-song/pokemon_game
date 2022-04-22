@@ -150,22 +150,21 @@ class PokeTeam:
             self.team.add(item)
         """
         self.team = ArraySortedList(self.POKEMON_LIMIT)
-        for i in range(charm):
-            value = Charmander()
-            key = self.get_criterion_val(value)
-            self.team.add(ListItem(value, key))
-        for i in range(bulb):
-            value = Bulbasaur()
-            key = self.get_criterion_val(value)
-            self.team.add(ListItem(value, key))
         for i in range(squir):
             value = Squirtle()
             key = self.get_criterion_val(value)
-            self.team.add(ListItem(value, key))
-        pass
-        
+            self.team.add(ListItem(value, -key))
+        for i in range(bulb):
+            value = Bulbasaur()
+            key = self.get_criterion_val(value)
+            self.team.add(ListItem(value, -key))
+        for i in range(charm):
+            value = Charmander()
+            key = self.get_criterion_val(value)
+            self.team.add(ListItem(value, -key))
 
 
+    """
     def key_attribute(self, poke: PokemonBase, criterion: str) -> int:
         # self.criterion = criterion
         if criterion in ["hp", "health"]:
@@ -178,6 +177,7 @@ class PokeTeam:
             return poke.get_speed()
         elif criterion in ["defence", "defense", "dfc", "dfs"]:
             return poke.get_defence()
+    """
 
 """
 
@@ -187,7 +187,6 @@ a.populate_sorted_list(2,2,1)
 print(a)
 # B B S C C
 
-\"""
 b = PokeTeam('raidi2') 
 b.set_criterion('level')
 b.populate_sorted_list(0,2,1)

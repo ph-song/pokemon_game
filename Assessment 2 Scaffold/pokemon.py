@@ -12,9 +12,6 @@ class Charmander(PokemonBase):
 
     def __init__(self)-> None:
         PokemonBase.__init__(self, self.POKE_TYPE, self.HP, self.NAME, self.ATTACK, self.DEFENCE, self.SPEED)
-        self.attack = self.level + self.ATTACK
-        self.defence = self.DEFENCE
-        self.speed = self.speed + self.level
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
@@ -26,7 +23,18 @@ class Charmander(PokemonBase):
             self.set_hp(self.get_hp() - attacker_damage)
         else:
             self.set_hp(self.get_hp() - attacker_damage//2)
-
+    
+    def get_attack(self):
+        """return pokemon attack"""
+        return self.attack + self.get_level()
+    
+    def get_defence(self):
+        """pokemon defence getter"""
+        return self.defence 
+    
+    def get_speed(self):
+        """return pokemon speed"""
+        return self.speed + self.get_level()
 
 
 class Bulbasaur(PokemonBase):
@@ -40,20 +48,29 @@ class Bulbasaur(PokemonBase):
 
     def __init__(self)-> None:
         PokemonBase.__init__(self, self.POKE_TYPE, self.HP, self.NAME, self.ATTACK, self.DEFENCE, self.SPEED)
-        self.attack = self.attack
-        self.defence = self.defence
-        self.speed = self.speed + self.level//2
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
         pokemon initiate attack, argument is defenser
-        hp of attacker and defenser both must be positive
+        hp of attacker and defender both must be positive
         """
         attacker_damage = attacker.get_attack() * attacker.damage_multiplier(self)
         if attacker_damage > self.get_defence() + 5 :
             self.set_hp(self.get_hp() - attacker_damage)
         else:
             self.set_hp(self.get_hp() - attacker_damage//2)
+        
+    def get_attack(self):
+        """return pokemon attack"""
+        return self.attack
+    
+    def get_defence(self):
+        """pokemon defence getter"""
+        return self.defence 
+    
+    def get_speed(self):
+        """return pokemon speed"""
+        return self.speed + self.get_level()//2
 
 class Squirtle(PokemonBase):
 
@@ -66,9 +83,6 @@ class Squirtle(PokemonBase):
 
     def __init__(self)-> None:
         PokemonBase.__init__(self, self.POKE_TYPE, self.HP, self.NAME, self.ATTACK, self.DEFENCE, self.SPEED)
-        self.attack = self.attack + self.level//2
-        self.defence = self.defence + self.level
-        self.speed = self.speed
     
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
@@ -81,9 +95,14 @@ class Squirtle(PokemonBase):
         else:
             self.set_hp(self.get_hp() - attacker_damage//2)
 
-
-b1 = Bulbasaur()
-b2 = Bulbasaur()
-print(b1)
-b1.attacked_by(b2)
-print(b1)
+    def get_attack(self):
+        """return pokemon attack"""
+        return self.attack + self.get_level()//2
+    
+    def get_defence(self):
+        """pokemon defence getter"""
+        return self.defence + self.get_level()
+    
+    def get_speed(self):
+        """return pokemon speed"""
+        return self.speed

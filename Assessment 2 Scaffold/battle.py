@@ -23,7 +23,7 @@ class Battle:
                 attacker = poke2
             defender.attacked_by(attacker)
 
-            #defencer retort
+            #defender retort
             if not defender.is_fainted():
                 attacker.attacked_by(defender)
         
@@ -32,15 +32,12 @@ class Battle:
             poke1.attacked_by(poke2)
             poke2.attacked_by(poke1)
         
-        
         #if both are still alive 
         if not poke1.is_fainted() and not poke2.is_fainted():
             poke1.set_hp(poke1.get_hp()-1)
             poke2.set_hp(poke2.get_hp()-1)
-            #if both are fainted
-            if poke1.is_fainted() and poke2.is_fainted():
-                return 
-        elif poke1.is_fainted() and poke2.is_fainted():
+
+        if poke1.is_fainted() and poke2.is_fainted():
             return     
         #if one poke fainted, another still live 
         elif poke1.is_fainted():
@@ -103,24 +100,22 @@ class Battle:
         i =1
         while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
             #print("round", i)
-            #print(len(self.player2.team))
-            poke1 = (self.player1.team.delete_at_index(len(self.player1.team)-1)).value
-            poke2 = (self.player2.team.delete_at_index(len(self.player2.team)-1)).value
-            #print('before \n', self.player2.team) #len(self.player1.team) +1 ,len(self.player2.team)+1, poke1, '\n', poke2)
-
+            #print('before ', '\nteam1 ', self.player1.team ,'\nteam2 ', self.player2.team)
+            poke1 = (self.player1.team.delete_at_index(0)).value
+            poke2 = (self.player2.team.delete_at_index(0)).value
+            #print(poke1)
             self.fight(poke1, poke2) #pokemon fight with each other
 
             #append not fainted pokemon back to queue
-            
+            #print(poke1)
             if not poke1.is_fainted():
                 key = self.player1.get_criterion_val(poke1)
-                self.player1.team.add(ListItem(poke1, key))
+                self.player1.team.add(ListItem(poke1, -key))
             if not poke2.is_fainted():
                 key = self.player1.get_criterion_val(poke2)
-                self.player2.team.add(ListItem(poke2, key))          
+                self.player2.team.add(ListItem(poke2, -key))          
             i +=1
-            #print('after \n', poke1, '\n', poke2)
-            print('after \n', self.player2.team)
+            #print('after' , '\nteam1', self.player1.team ,'\nteam2', self.player2.team)
         return self.result()
 
 
@@ -146,11 +141,12 @@ print(a.player2)
 b = Battle("Brock", "Gary")
 print(b.rotating_mode_battle())
 #2 2 1 #0 2 1 #'Brock' 
-"""
+
+
 c = Battle("haha", 'hehe')
 
 print(c.optimised_mode_battle('hp', 'level'))
 print(c.player1.team)
-""""""
+"""
 #2 2 1 #0 2 1 
 
