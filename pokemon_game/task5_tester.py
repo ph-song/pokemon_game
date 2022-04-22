@@ -24,7 +24,7 @@ class TestTask5(TesterBase):
         except AssertionError:
             self.verificationErrors.append(f"Cynthia should win: {result}.")
         try:
-            assert str(b.player1) == "Bulbasaur's HP = 6 and level = 1, Bulbasaur's HP = 5 and level = 2, Squirtle's HP = 2 and level = 1"
+            assert str(b.player1) == "Bulbasaur's HP = 6 and level = 1, Bulbasaur's HP = 5.0 and level = 2, Squirtle's HP = 2 and level = 1"
         except AssertionError:
             self.verificationErrors.append(f"Player 1 is not correct after battle: {str(b.player1)}")
 

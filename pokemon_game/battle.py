@@ -118,7 +118,6 @@ class Battle:
             #print('after' , '\nteam1', self.player1.team ,'\nteam2', self.player2.team)
         return self.result()
 
-
     def result(self)-> str:
         """return trainer name of won team"""
         #check if the player is defeated

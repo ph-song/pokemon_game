@@ -47,29 +47,6 @@ class TestTask1(TesterBase):
         except Exception as e:
             self.verificationErrors.append(f"String method failed. {e}")
 
-    def test_effective_damage(self):
-        from pokemon import Charmander, Bulbasaur
-        c = Charmander()
-        b = Bulbasaur()
-        try:
-            damage = float(b.effective_damage(c))
-            if damage != 14:
-                self.verificationErrors.append(f"Damage taken method did not return correct float: {damage}")
-        except Exception as e:
-            self.verificationErrors.append(f"Damage taken method failed. {e}")
-
-    def test_set_hp(self):
-        from pokemon import Charmander, Bulbasaur
-        c = Charmander()
-        b = Bulbasaur()
-        try:
-            b.set_hp(b.get_hp() - b.effective_damage(c))
-            hp = b.get_hp()
-            if hp != -5:
-                self.verificationErrors.append(f"Damage taken method did not return correct float: {hp}")
-        except Exception as e:
-            self.verificationErrors.append(f"Damage taken method failed. {e}")
-
     def test_get_attack_charmander(self):
         from pokemon import Charmander
         c = Charmander()
@@ -95,7 +72,7 @@ class TestTask1(TesterBase):
         b = Bulbasaur()
         try:
             # b.set_hp(b.get_hp() - (b.get_attack() * 2))
-            flag = b.is_faint()
+            flag = b.is_fainted()
             if flag != False:
                 self.verificationErrors.append(f"Is_faint method did not return correct float: {flag}")
         except Exception as e:

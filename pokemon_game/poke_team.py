@@ -17,25 +17,7 @@ class PokeTeam:
         self.criterion = None
      
     def __str__(self):
-        ret = ""
-        if type(self.team) is ArrayStack:
-            for i in range(len(self.team)):
-                ret += str(self.team.array[i]) + ", "
-
-        elif type(self.team) is CircularQueue:
-            for i in range(len(self.team)):
-                front = self.team.front
-                length = len(self.team.array)
-                if front + i < length:
-                    ret += str(self.team.array[i+front]) + ", "
-                else:
-                    ret += str(self.team.array[i+front-length]) + ", "
-        
-        elif type(self.team) is ArraySortedList:
-            for i in range(len(self.team)):
-                ret += str(self.team.array[i].value) + ", "
-
-        return ret[:-2] #remove excess ", "
+        return str(self.team)
 
     def get_trainer_name(self):
         """trainer_name getter"""
@@ -69,8 +51,6 @@ class PokeTeam:
         }
         criterion = (self.get_criterion()).lower()
         return criterion_table[criterion]
-
-        pass
     
     def choose_team(self, battle_mode: int, criterion: str = None) -> None:
         """choose number of pokemons and form a team"""
@@ -129,26 +109,6 @@ class PokeTeam:
 
     def populate_sorted_list(self, charm: int, bulb: int, squir: int):
         self.team = ArraySortedList(charm + bulb + squir)
-        
-        """
-        for poke in range(bulb):
-            b = Bulbasaur()
-            key_value = self.key_attribute(b, self.criterion)
-            item = ListItem(b, key_value)
-            self.team.add(item)
-
-        for poke in range(squir):
-            s = Squirtle()
-            key_value = self.key_attribute(s, self.criterion)
-            item = ListItem(s, key_value)
-            self.team.add(item)
-
-        for poke in range(charm):
-            c = Charmander()
-            key_value = self.key_attribute(c, self.criterion)
-            item = ListItem(c, key_value)
-            self.team.add(item)
-        """
         self.team = ArraySortedList(self.POKEMON_LIMIT)
         for i in range(squir):
             value = Squirtle()
@@ -164,23 +124,7 @@ class PokeTeam:
             self.team.add(ListItem(value, -key))
 
 
-    """
-    def key_attribute(self, poke: PokemonBase, criterion: str) -> int:
-        # self.criterion = criterion
-        if criterion in ["hp", "health"]:
-            return poke.get_hp()
-        elif criterion in ["attack", "atk", "atc"]:
-            return poke.get_attack()
-        elif criterion in ["level", "lvl"]:
-            return poke.get_level()
-        elif criterion in ["speed", "spd"]:
-            return poke.get_speed()
-        elif criterion in ["defence", "defense", "dfc", "dfs"]:
-            return poke.get_defence()
-    """
-
 """
-
 a = PokeTeam('raidi1')
 a.set_criterion('hp')
 a.populate_sorted_list(2,2,1)
@@ -191,5 +135,5 @@ b = PokeTeam('raidi2')
 b.set_criterion('level')
 b.populate_sorted_list(0,2,1)
 print(b)
-"""
 #S B B
+"""

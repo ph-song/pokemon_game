@@ -10,16 +10,10 @@ class PokemonBase(ABC):
         'Grass': {'Fire': 0.5, 'Water': 2, 'Grass': 1}
         }
 
-    def __init__(self, poke_type: str, hp: int, name: str, attack: int, defence: int, speed: int) -> None:
+    def __init__(self, hp: int, poke_type: str) -> None:
         self.poke_type = poke_type
         self.hp = hp
         self.level = self.INITIAL_LEVEL
-        self.name = name
-
-        #should these attributes be instantiated at PokemonBase or Pokemon
-        self.attack = attack 
-        self.defence = defence
-        self.speed = speed
         
     def __str__(self)->str:
         """string method of PokemonBase"""

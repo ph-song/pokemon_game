@@ -11,7 +11,12 @@ class Charmander(PokemonBase):
     NAME = "Charmander"
 
     def __init__(self)-> None:
-        PokemonBase.__init__(self, self.POKE_TYPE, self.HP, self.NAME, self.ATTACK, self.DEFENCE, self.SPEED)
+        PokemonBase.__init__(self, self.HP, self.POKE_TYPE)
+        self.name = self.NAME 
+        self.hp = self.HP
+        self.defence = self.DEFENCE
+        self.attack = self.ATTACK
+        self.speed = self.SPEED
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
@@ -47,7 +52,12 @@ class Bulbasaur(PokemonBase):
     NAME = "Bulbasaur"
 
     def __init__(self)-> None:
-        PokemonBase.__init__(self, self.POKE_TYPE, self.HP, self.NAME, self.ATTACK, self.DEFENCE, self.SPEED)
+        PokemonBase.__init__(self, self.HP, self.POKE_TYPE)
+        self.name = self.NAME
+        self.hp = self.HP
+        self.defence = self.DEFENCE
+        self.attack = self.ATTACK
+        self.speed = self.SPEED
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
@@ -82,8 +92,13 @@ class Squirtle(PokemonBase):
     NAME = "Squirtle"
 
     def __init__(self)-> None:
-        PokemonBase.__init__(self, self.POKE_TYPE, self.HP, self.NAME, self.ATTACK, self.DEFENCE, self.SPEED)
-    
+        PokemonBase.__init__(self, self.HP, self.POKE_TYPE)
+        self.name = self.NAME
+        self.hp = self.HP
+        self.defence = self.DEFENCE
+        self.attack = self.ATTACK
+        self.speed = self.SPEED
+
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
         pokemon initiate attack, argument is defenser
@@ -106,3 +121,5 @@ class Squirtle(PokemonBase):
     def get_speed(self):
         """return pokemon speed"""
         return self.speed
+
+    

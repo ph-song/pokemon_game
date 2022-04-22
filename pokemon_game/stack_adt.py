@@ -65,7 +65,13 @@ class ArrayStack(Stack[T]):
         """
         Stack.__init__(self)
         self.array = ArrayR(max(self.MIN_CAPACITY, max_capacity))
-        
+    
+    def __str__(self):
+        ret = ""
+        for i in range(len(self)):
+            ret += str(self.array[i]) + ", "
+        return ret[:-2] #remove excess ", "
+
     def is_full(self) -> bool:
         """ True if the stack is full and no element can be pushed. """
         return len(self) == len(self.array)

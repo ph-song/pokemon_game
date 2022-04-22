@@ -23,6 +23,12 @@ class ArraySortedList(SortedList[T]):
         # initialising the internal array
         size = max(self.MIN_CAPACITY, max_capacity)
         self.array = ArrayR(size)
+    
+    def __str__(self):
+        ret = ""
+        for i in range(len(self)):
+            ret += str(self.array[i].value) + ", "
+        return ret[:-2] #remove excess ", "
 
     def reset(self):
         """ Reset the list. """
