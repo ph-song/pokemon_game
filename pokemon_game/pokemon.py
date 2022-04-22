@@ -1,26 +1,25 @@
 from pokemon_base import PokemonBase
 from typing import Type 
+from random import randint
+from abc import ABC
+
 
 class Charmander(PokemonBase):
 
-    ATTACK = 6
-    DEFENCE = 4
-    SPEED = 7
-    HP = 7
-    POKE_TYPE = "Fire"
-    NAME = "Charmander"
+    CHAR_ATTACK = 6
+    CHAR_DEFENCE = 4
+    CHAR_SPEED = 7
+    CHAR_HP = 7
+    CHAR_POKE_TYPE = "Fire"
+    CHAR_NAME = "Charmander"
 
     def __init__(self)-> None:
-        PokemonBase.__init__(self, self.HP, self.POKE_TYPE)
-        self.name = self.NAME 
-        self.hp = self.HP
-        self.defence = self.DEFENCE
-        self.attack = self.ATTACK
-        self.speed = self.SPEED
+        PokemonBase.__init__(self, self.CHAR_HP, self.CHAR_POKE_TYPE)
+        self.name = self.CHAR_NAME 
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
-        pokemon initiate attack, argument is defenser
+        pokemon initiate attack, argument is defender
         hp of attacker and defenser both must be positive
         """
         attacker_damage = attacker.get_attack() * attacker.damage_multiplier(self)
@@ -31,33 +30,29 @@ class Charmander(PokemonBase):
     
     def get_attack(self):
         """return pokemon attack"""
-        return self.attack + self.get_level()
+        return self.CHAR_ATTACK + self.get_level()
     
     def get_defence(self):
         """pokemon defence getter"""
-        return self.defence 
+        return self.CHAR_DEFENCE
     
     def get_speed(self):
         """return pokemon speed"""
-        return self.speed + self.get_level()
+        return self.CHAR_SPEED + self.get_level()
 
 
 class Bulbasaur(PokemonBase):
 
-    ATTACK = 5
-    DEFENCE = 5
-    SPEED = 7
-    HP = 9
-    POKE_TYPE = "Grass"
-    NAME = "Bulbasaur"
+    BULB_ATTACK = 5
+    BULB_DEFENCE = 5
+    BULB_SPEED = 7
+    BULB_HP = 9
+    BULB_POKE_TYPE = "Grass"
+    BULB_NAME = "Bulbasaur"
 
     def __init__(self)-> None:
-        PokemonBase.__init__(self, self.HP, self.POKE_TYPE)
-        self.name = self.NAME
-        self.hp = self.HP
-        self.defence = self.DEFENCE
-        self.attack = self.ATTACK
-        self.speed = self.SPEED
+        PokemonBase.__init__(self, self.BULB_HP, self.BULB_POKE_TYPE)
+        self.name = self.BULB_NAME
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
@@ -72,32 +67,28 @@ class Bulbasaur(PokemonBase):
         
     def get_attack(self):
         """return pokemon attack"""
-        return self.attack
+        return self.BULB_ATTACK
     
     def get_defence(self):
         """pokemon defence getter"""
-        return self.defence 
+        return self.BULB_DEFENCE
     
     def get_speed(self):
         """return pokemon speed"""
-        return self.speed + self.get_level()//2
+        return self.BULB_SPEED + self.get_level()//2
 
 class Squirtle(PokemonBase):
 
-    ATTACK = 4
-    DEFENCE = 6
-    SPEED = 7
-    HP = 8
-    POKE_TYPE = "Water"
-    NAME = "Squirtle"
+    SQUIR_ATTACK = 4
+    SQUIR_DEFENCE = 6
+    SQUIR_SPEED = 7
+    SQUIR_HP = 8
+    SQUIR_POKE_TYPE = "Water"
+    SQUIR_NAME = "Squirtle"
 
     def __init__(self)-> None:
-        PokemonBase.__init__(self, self.HP, self.POKE_TYPE)
-        self.name = self.NAME
-        self.hp = self.HP
-        self.defence = self.DEFENCE
-        self.attack = self.ATTACK
-        self.speed = self.SPEED
+        PokemonBase.__init__(self, self.SQUIR_HP, self.SQUIR_POKE_TYPE)
+        self.name = self.SQUIR_NAME
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         """
@@ -112,14 +103,88 @@ class Squirtle(PokemonBase):
 
     def get_attack(self):
         """return pokemon attack"""
-        return self.attack + self.get_level()//2
+        return self.SQUIR_ATTACK + self.get_level()//2
     
     def get_defence(self):
         """pokemon defence getter"""
-        return self.defence + self.get_level()
+        return self.SQUIR_DEFENCE + self.get_level()
     
     def get_speed(self):
         """return pokemon speed"""
-        return self.speed
+        return self.SQUIR_SPEED
 
+
+class GlitchMon(Charmander, Squirtle, Bulbasaur): #is ABC nessesary
+    POKE_TYPE = None
+
+    def __init__(self)-> None:
+        PokemonBase.__init__(self, self.HP, self.POKE_TYPE) #downcasting?
+
+    def attacked_by(self, attacker: Type[PokemonBase]) -> None:
+        if randint(1,4) == 1: #1 out of 4 gives 25% chance
+            self.super_power()
+        self.set_hp(self.get_hp() - attacker.get_attack())
     
+    '''
+    def increase_hp(self, hp):
+        """:precondition:input hp must be higher thatn self.hp"""
+        self.hp += hp
+    '''
+
+    def super_power(self):
+        print('check')
+        i = randint(0,2)
+        if i == 0:
+            self.set_hp(self.get_hp() +1)
+            print(0)
+        elif i == 1:
+            self.set_level(self.get_level()+1)
+            print(1)
+        elif i == 2:
+            self.set_hp(self.get_hp() +1)
+            self.set_level(self.get_level()+1)
+            print(2)
+
+class MissingNo(GlitchMon):
+    HP = (Charmander.CHAR_HP + Bulbasaur.BULB_HP + Squirtle.SQUIR_HP)/3
+
+    def __init__(self):
+        GlitchMon.__init__(self)
+
+    def get_attack(self):
+        """return pokemon attack"""
+        sum = Charmander.get_attack(self) +Squirtle.get_attack(self) + Bulbasaur.get_attack(self)
+        return sum/3 + self.get_level() -1
+    
+    def get_defence(self):
+        """pokemon defence getter"""
+        sum = Charmander.get_defence(self) +Squirtle.get_defence(self) + Bulbasaur.get_defence(self)
+        return sum/3 + self.get_level() -1
+    
+    def get_speed(self) -> int:
+        """return pokemon speed"""
+        sum = Charmander.get_speed(self) +Squirtle.get_speed(self) + Bulbasaur.get_speed(self)
+        return sum/3 + self.get_level() -1
+
+    def get_hp(self) -> int:
+        return self.hp
+
+"""
+m = MissingNo()
+print(m.get_hp(), m.get_level(), m.get_type())
+c =Charmander()
+
+print('before fight\n', m.get_attack(), m.get_defence(), m.get_speed(), m.get_hp())
+
+m.attacked_by(c)
+print('after fight\n', m.get_attack(), m.get_defence(), m.get_speed(), m.get_hp())
+
+m = MissingNo()
+print('before level up\n', m.get_attack(), m.get_defence(), m.get_speed())
+
+m.set_level(m.get_level() +1 )
+print('after level up\n', m.get_attack(), m.get_defence(), m.get_speed())
+
+m.set_level(m.get_level() +1 )
+print('after level up\n', m.get_attack(), m.get_defence(), m.get_speed())
+"""

@@ -1,4 +1,4 @@
-from pokemon import Charmander, Bulbasaur, Squirtle
+from pokemon import Charmander, Bulbasaur, MissingNo, Squirtle
 from queue_adt import CircularQueue
 from array_sorted_list import ArraySortedList
 from sorted_list import ListItem
@@ -13,7 +13,7 @@ class PokeTeam:
     def __init__(self, trainer_name: str) -> None:
         self.battle_mode = self.INITIAL_BATTLE_MODE
         self.trainer_name = trainer_name
-        self.team = None
+        self.team = None #array ququqqu stack sotrlig 
         self.criterion = None
      
     def __str__(self):
@@ -59,46 +59,52 @@ class PokeTeam:
         self.set_criterion(criterion)
 
         #ask input from user 
-        prompt = "Howdy Trainer! Choose your team as C B S \nwhere \tC is the number of Charmanders \n\tB is the number of Bulbasaurs \n\tS is the number of Squirtles\n>"
+        prompt = "Howdy Trainer! Choose your team as C B S M\nwhere \tC is the number of Charmanders \n\tB is the number of Bulbasaurs \n\tS is the number of Squirtles\n\tM is the number of Mystery Pokemon\n>"
         valid_input = False
         while not valid_input:
             try:
+                myst = 0
                 user_input = input(prompt)
                 charm, bulb, squir = int(user_input[0]), int(user_input[2]), int(user_input[4])
-                self.assign_team(charm, bulb, squir) #popoulate team
+                if len(user_input) >=6:
+                    myst = int(user_input[6])
+                self.assign_team(charm, bulb, squir, myst) #popoulate team
             except Exception:
                 print("invalid input")
             else:
                 valid_input = True
 
-    def assign_team(self, charm: int, bulb: int, squir: int) -> None:
+    def assign_team(self, charm: int, bulb: int, squir: int, myst: int = 0) -> None:
         """populate team"""
-        pokemon_num = charm + bulb + squir
+        pokemon_num = charm + bulb + squir + myst
         if pokemon_num > self.POKEMON_LIMIT:
             raise Exception("exceed team pokemon limit")
         
         #when battle_mode == 0 
         if self.get_battle_mode() == 0:
-            self.populate_stack(charm, bulb, squir)
+            self.populate_stack(charm, bulb, squir, myst)
 
-        #when battle_mode == 0 
+        #when battle_mode == 1
         elif self.get_battle_mode() == 1:
-            self.populate_queue(charm, bulb, squir)
+            self.populate_queue(charm, bulb, squir, myst)
 
         #when battle_mode == 2
         elif self.get_battle_mode() == 2:
-            self.populate_sorted_list(charm, bulb, squir)
+            self.populate_sorted_list(charm, bulb, squir, myst)
     
-    def populate_stack(self, charm: int, bulb: int, squir: int):
+    def populate_stack(self, charm: int, bulb: int, squir: int, myst: int = 0):
         self.team = ArrayStack(self.POKEMON_LIMIT)
+        if bool(myst):
+            self.team.append(MissingNo())
         for i in range(charm):
             self.team.push(Charmander())
         for i in range(bulb):
             self.team.push(Bulbasaur())
         for i in range(squir):
             self.team.push(Squirtle())
+
     
-    def populate_queue(self, charm: int, bulb: int, squir: int):
+    def populate_queue(self, charm: int, bulb: int, squir: int, myst: int = 0):
         self.team = CircularQueue(self.POKEMON_LIMIT)
         for i in range(charm):
             self.team.append(Charmander())
@@ -106,9 +112,10 @@ class PokeTeam:
             self.team.append(Bulbasaur())
         for i in range(squir):
             self.team.append(Squirtle())
+        if bool(myst):
+            self.team.append(MissingNo())
 
-    def populate_sorted_list(self, charm: int, bulb: int, squir: int):
-        self.team = ArraySortedList(charm + bulb + squir)
+    def populate_sorted_list(self, charm: int, bulb: int, squir: int, myst: int = 0):
         self.team = ArraySortedList(self.POKEMON_LIMIT)
         for i in range(squir):
             value = Squirtle()
@@ -122,9 +129,15 @@ class PokeTeam:
             value = Charmander()
             key = self.get_criterion_val(value)
             self.team.add(ListItem(value, -key))
-
+        if bool(myst):
+            pass
 
 """
+a = PokeTeam('raidi1')
+a.choose_team(1)
+print(a)
+
+
 a = PokeTeam('raidi1')
 a.set_criterion('hp')
 a.populate_sorted_list(2,2,1)

@@ -7,7 +7,8 @@ class PokemonBase(ABC):
     TYPE_EFFECTIVENESS = {
         'Fire': {'Fire': 1, 'Water': 0.5, 'Grass': 2}, 
         'Water': {'Fire': 2, 'Water': 1, 'Grass': 0.5}, 
-        'Grass': {'Fire': 0.5, 'Water': 2, 'Grass': 1}
+        'Grass': {'Fire': 0.5, 'Water': 2, 'Grass': 1},
+        None: {'Fire': 1, 'Water': 1, 'Grass': 1}
         }
 
     def __init__(self, hp: int, poke_type: str) -> None:
@@ -76,3 +77,5 @@ class PokemonBase(ABC):
     def damage_multiplier(self, defender: 'PokemonBase') -> float:
         """reutrn multiplier of attack based on pokemon type of attacker and defender"""
         return self.TYPE_EFFECTIVENESS[self.get_type()][defender.get_type()]
+
+
