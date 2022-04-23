@@ -13,8 +13,9 @@ class PokeTeam:
     def __init__(self, trainer_name: str) -> None:
         self.battle_mode = self.INITIAL_BATTLE_MODE
         self.trainer_name = trainer_name
-        self.team = None #array ququqqu stack sotrlig 
+        self.team = None 
         self.criterion = None
+        self.myst = False
      
     def __str__(self):
         return str(self.team)
@@ -63,11 +64,13 @@ class PokeTeam:
         valid_input = False
         while not valid_input:
             try:
-                myst = 0
                 user_input = input(prompt)
                 charm, bulb, squir = int(user_input[0]), int(user_input[2]), int(user_input[4])
+                
+                myst = 0
                 if len(user_input) >=6:
                     myst = int(user_input[6])
+
                 self.assign_team(charm, bulb, squir, myst) #popoulate team
             except Exception:
                 print("invalid input")
@@ -77,8 +80,8 @@ class PokeTeam:
     def assign_team(self, charm: int, bulb: int, squir: int, myst: int = 0) -> None:
         """populate team"""
         pokemon_num = charm + bulb + squir + myst
-        if pokemon_num > self.POKEMON_LIMIT:
-            raise Exception("exceed team pokemon limit")
+        if pokemon_num > self.POKEMON_LIMIT or myst > 1:
+            raise Exception("invalid pokemon number")
         
         #when battle_mode == 0 
         if self.get_battle_mode() == 0:
@@ -95,14 +98,14 @@ class PokeTeam:
     def populate_stack(self, charm: int, bulb: int, squir: int, myst: int = 0):
         self.team = ArrayStack(self.POKEMON_LIMIT)
         if bool(myst):
-            self.team.append(MissingNo())
-        for i in range(charm):
-            self.team.push(Charmander())
-        for i in range(bulb):
-            self.team.push(Bulbasaur())
+            self.team.push(MissingNo())
         for i in range(squir):
             self.team.push(Squirtle())
-
+        for i in range(bulb):
+            self.team.push(Bulbasaur())
+        for i in range(charm):
+            self.team.push(Charmander())
+        
     
     def populate_queue(self, charm: int, bulb: int, squir: int, myst: int = 0):
         self.team = CircularQueue(self.POKEMON_LIMIT)
@@ -130,11 +133,19 @@ class PokeTeam:
             key = self.get_criterion_val(value)
             self.team.add(ListItem(value, -key))
         if bool(myst):
-            pass
+            value = MissingNo()
+            key = float('inf')
+            self.team.add(ListItem(value, -key))
 
 """
+a = PokeTeam("haha")
+a.choose_team(0, None)
+#a.populate_stack(1,1,1,1)
+print(a)
+
+
 a = PokeTeam('raidi1')
-a.choose_team(1)
+a.choose_team(0,None)
 print(a)
 
 
@@ -149,4 +160,11 @@ b.set_criterion('level')
 b.populate_sorted_list(0,2,1)
 print(b)
 #S B B
+
+a = PokeTeam('asd')
+a.populate_stack(1,0,0)
+a.team.push(Squirtle())
+print(a)
+a.team.pop()
+print(a)
 """

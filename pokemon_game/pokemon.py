@@ -1,7 +1,7 @@
 from pokemon_base import PokemonBase
 from typing import Type 
 from random import randint
-from abc import ABC
+from abc import ABC, abstractclassmethod, abstractmethod
 
 
 class Charmander(PokemonBase):
@@ -114,11 +114,12 @@ class Squirtle(PokemonBase):
         return self.SQUIR_SPEED
 
 
-class GlitchMon(Charmander, Squirtle, Bulbasaur): #is ABC nessesary
+class GlitchMon(Charmander, Squirtle, Bulbasaur, ABC): #is ABC nessesary
     POKE_TYPE = None
 
     def __init__(self)-> None:
         PokemonBase.__init__(self, self.HP, self.POKE_TYPE) #downcasting?
+        self.name = self.MYST_NAME
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
         if randint(1,4) == 1: #1 out of 4 gives 25% chance
@@ -145,8 +146,27 @@ class GlitchMon(Charmander, Squirtle, Bulbasaur): #is ABC nessesary
             self.set_level(self.get_level()+1)
             print(2)
 
+    @abstractmethod
+    def get_attack(self):
+        """return pokemon attack"""
+        pass
+    
+    @abstractmethod
+    def get_defence(self):
+        """pokemon defence getter"""
+        pass
+    
+    @abstractmethod
+    def get_speed(self):
+        """return pokemon speed"""
+        pass
+
 class MissingNo(GlitchMon):
     HP = (Charmander.CHAR_HP + Bulbasaur.BULB_HP + Squirtle.SQUIR_HP)/3
+    MYST_NAME = "MissingNo"
+
+    def __init__(self)-> None:
+        GlitchMon.__init__(self)
 
     def __init__(self):
         GlitchMon.__init__(self)
@@ -171,7 +191,8 @@ class MissingNo(GlitchMon):
 
 """
 m = MissingNo()
-print(m.get_hp(), m.get_level(), m.get_type())
+
+print(m.get_hp(), m.get_level(), m.get_type(), m.get_name())
 c =Charmander()
 
 print('before fight\n', m.get_attack(), m.get_defence(), m.get_speed(), m.get_hp())

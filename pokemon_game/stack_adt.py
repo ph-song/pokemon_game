@@ -68,7 +68,7 @@ class ArrayStack(Stack[T]):
     
     def __str__(self):
         ret = ""
-        for i in range(len(self)):
+        for i in range(len(self)-1, -1, -1):
             ret += str(self.array[i]) + ", "
         return ret[:-2] #remove excess ", "
 

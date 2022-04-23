@@ -21,7 +21,7 @@ class TestTask4(TesterBase):
             return
         output = out.getvalue().strip()
         try:
-            assert str(team) == "Charmander's HP = 7 and level = 1, Bulbasaur's HP = 9 and level = 1, Squirtle's HP = 8 and level = 1, MissingNo's HP = 7 and level = 1"
+            assert str(team) == "Charmander's HP = 7 and level = 1, Bulbasaur's HP = 9 and level = 1, Squirtle's HP = 8 and level = 1, MissingNo's HP = 8.0 and level = 1"
         except AssertionError:
             self.verificationErrors.append(f"PokeTeam does not handle limit correctly. {str(team)}")
 
