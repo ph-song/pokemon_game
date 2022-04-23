@@ -136,7 +136,7 @@ class PokeTeam:
             value = MissingNo()
             key = float('inf')
             self.team.add(ListItem(value, -key))
-
+            
 """
 a = PokeTeam("haha")
 a.choose_team(0, None)

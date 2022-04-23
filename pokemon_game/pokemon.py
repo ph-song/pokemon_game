@@ -114,7 +114,70 @@ class Squirtle(PokemonBase):
         return self.SQUIR_SPEED
 
 
-class GlitchMon(Charmander, Squirtle, Bulbasaur, ABC): #is ABC nessesary
+class GlitchMon(PokemonBase): #is ABC nessesary
+    POKE_TYPE = None
+
+    def __init__(self, hp: int, name: str)-> None:
+        PokemonBase.__init__(self, hp, self.POKE_TYPE) #downcasting?
+        self.name = name
+
+    def attacked_by(self, attacker: Type[PokemonBase]) -> None:
+        if randint(1,4) == 1: #1 out of 4 gives 25% chance
+            self.super_power()
+        self.set_hp(self.get_hp() - attacker.get_attack())
+
+    def super_power(self):
+        i = randint(0,2)
+        if i == 0:
+            self.set_hp(self.get_hp() +1)
+        elif i == 1:
+            self.set_level(self.get_level()+1)
+        elif i == 2:
+            self.set_hp(self.get_hp() +1)
+            self.set_level(self.get_level()+1)
+
+    @abstractmethod
+    def get_attack(self):
+        """return pokemon attack"""
+        pass
+    
+    @abstractmethod
+    def get_defence(self):
+        """pokemon defence getter"""
+        pass
+    
+    @abstractmethod
+    def get_speed(self):
+        """return pokemon speed"""
+        pass
+
+class MissingNo(GlitchMon):
+    HP = (7+9+8)/3
+    MYST_NAME = "MissingNo"
+
+    def __init__(self)-> None:
+        GlitchMon.__init__(self, self.HP, self.MYST_NAME)
+        self.name = self.MYST_NAME
+
+    def get_attack(self):
+        """return pokemon attack"""
+        sum = 6 + self.get_level() + 5 + 4 + self.get_level()//2
+        return sum/3 + self.get_level() -1
+    
+    def get_defence(self):
+        """pokemon defence getter"""
+        sum = 4 + 5 + 6 + self.get_level()
+        return sum/3 + self.get_level() -1
+    
+    def get_speed(self) -> int:
+        """return pokemon speed"""
+        sum = 7 + self.get_level() + 7 + self.get_level()//2 + 7
+        return sum/3 + self.get_level() -1
+
+
+
+'''
+class GlitchMon(Charmander, Squirtle, Bulbasaur): #is ABC nessesary
     POKE_TYPE = None
 
     def __init__(self)-> None:
@@ -125,26 +188,16 @@ class GlitchMon(Charmander, Squirtle, Bulbasaur, ABC): #is ABC nessesary
         if randint(1,4) == 1: #1 out of 4 gives 25% chance
             self.super_power()
         self.set_hp(self.get_hp() - attacker.get_attack())
-    
-    '''
-    def increase_hp(self, hp):
-        """:precondition:input hp must be higher thatn self.hp"""
-        self.hp += hp
-    '''
 
     def super_power(self):
-        print('check')
         i = randint(0,2)
         if i == 0:
             self.set_hp(self.get_hp() +1)
-            print(0)
         elif i == 1:
             self.set_level(self.get_level()+1)
-            print(1)
         elif i == 2:
             self.set_hp(self.get_hp() +1)
             self.set_level(self.get_level()+1)
-            print(2)
 
     @abstractmethod
     def get_attack(self):
@@ -167,9 +220,7 @@ class MissingNo(GlitchMon):
 
     def __init__(self)-> None:
         GlitchMon.__init__(self)
-
-    def __init__(self):
-        GlitchMon.__init__(self)
+        self.name = self.MYST_NAME
 
     def get_attack(self):
         """return pokemon attack"""
@@ -188,10 +239,13 @@ class MissingNo(GlitchMon):
 
     def get_hp(self) -> int:
         return self.hp
+'''    
 
-m = MissingNo()
 
 """
+m = MissingNo()
+
+
 
 print(m.get_hp(), m.get_level(), m.get_type(), m.get_name())
 c =Charmander()

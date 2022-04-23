@@ -82,14 +82,13 @@ class Battle:
             poke1 = self.player1.team.serve()
             poke2 = self.player2.team.serve()
 
-            #check if it's MissingNo
-            if type(poke1) is MissingNo or type(poke2) is MissingNo:
-                if type(poke1) is MissingNo:
-                    self.player1.team.append(poke1)
-                    poke1 = self.player1.team.serve()
-                else:
-                    self.player1.team.append(poke2)
-                    poke2 = self.player2.team.serve()
+     #check if it's MissingNo
+            if type(poke1) is MissingNo and not self.player1.team.is_empty():
+                self.player1.team.append(poke1)
+                poke1 = self.player1.team.serve()
+            if type(poke2) is MissingNo and not self.player2.team.is_empty():
+                self.player1.team.append(poke2)
+                poke2 = self.player2.team.serve()
 
             self.fight(poke1, poke2) #pokemon fight with each other
 
