@@ -3,6 +3,7 @@ from poke_team import PokeTeam
 from pokemon_base import PokemonBase
 from array_sorted_list import ArraySortedList
 from sorted_list import ListItem
+from pokemon import MissingNo
 
 class Battle:
 
@@ -80,6 +81,15 @@ class Battle:
             #serve pokemon from queue
             poke1 = self.player1.team.serve()
             poke2 = self.player2.team.serve()
+
+            #check if it's MissingNo
+            if type(poke1) is MissingNo or type(poke2) is MissingNo:
+                if type(poke1) is MissingNo:
+                    self.player1.team.append(poke1)
+                    poke1 = self.player1.team.serve()
+                else:
+                    self.player1.team.append(poke2)
+                    poke2 = self.player2.team.serve()
 
             self.fight(poke1, poke2) #pokemon fight with each other
 

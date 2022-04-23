@@ -189,8 +189,9 @@ class MissingNo(GlitchMon):
     def get_hp(self) -> int:
         return self.hp
 
-"""
 m = MissingNo()
+
+"""
 
 print(m.get_hp(), m.get_level(), m.get_type(), m.get_name())
 c =Charmander()
