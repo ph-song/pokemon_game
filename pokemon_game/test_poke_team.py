@@ -29,6 +29,7 @@ class TestPokeTeam(TesterBase):
         except Exception as e:
             self.verificationErrors.append(f"choose_team() failed: {e}")
             return
+            
         try:
             t = PokeTeam("trainer")
             with captured_output("abcde\n1 1 1") as (inp, out, err):

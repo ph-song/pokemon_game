@@ -17,6 +17,7 @@ class TestPokemon(TesterBase):
         except Exception as e:
             self.verificationErrors.append(f"Charmander attacked_by() Charmander failed {e}")
             return
+            
         try:
             c = Charmander()
             s = Squirtle()

@@ -58,6 +58,7 @@ class Battle:
             #pop pokemon from stack
             poke1 = self.player1.team.pop()        
             poke2 = self.player2.team.pop()
+
             self.fight(poke1, poke2) # two pokemons fight
             
             #push not fainted pokemon back to stack
@@ -69,7 +70,7 @@ class Battle:
         return self.result() #return result
 
     #task 4 
-    def rotating_mode_battle(self) -> None:
+    def rotating_mode_battle(self) -> str:
         """fight in battle mode 1, rotating mode"""
         #choose team
         self.player1.choose_team(1)
@@ -82,7 +83,7 @@ class Battle:
             poke1 = self.player1.team.serve()
             poke2 = self.player2.team.serve()
 
-     #check if it's MissingNo
+            #check if it's MissingNo
             if type(poke1) is MissingNo and not self.player1.team.is_empty():
                 self.player1.team.append(poke1)
                 poke1 = self.player1.team.serve()
@@ -110,6 +111,7 @@ class Battle:
         while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
             poke1 = (self.player1.team.delete_at_index(0)).value
             poke2 = (self.player2.team.delete_at_index(0)).value
+
             self.fight(poke1, poke2) #pokemon fight with each other
 
             #append not fainted pokemon back to queue
@@ -118,7 +120,8 @@ class Battle:
                 self.player1.team.add(ListItem(poke1, -key))
             if not poke2.is_fainted():
                 key = self.player1.get_criterion_val(poke2)
-                self.player2.team.add(ListItem(poke2, -key))          
+                self.player2.team.add(ListItem(poke2, -key)) 
+
         return self.result()
 
     def result(self)-> str:

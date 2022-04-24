@@ -7,7 +7,12 @@ from queue_adt import CircularQueue
 
 class TestBattle(TesterBase):
     def test_fight(self):
-        #poke1, poke2
+        b = Battle("player1", "player2")
+        with captured_output("0 1 1\n1 1 1") as (inp, out, err):
+            b.player1.choose_team(0)
+            b.player2.choose_team(0)
+            p1 = b.player1.team.pop()
+            p2 = b.player2.team.pop()
         pass
 
 
@@ -15,8 +20,7 @@ class TestBattle(TesterBase):
         try:
             b = Battle("player1", "player2")
             with captured_output("0 1 1\n1 1 1") as (inp, out, err):
-                b.set_mode_battle()
-            result = "player2"
+                result = b.set_mode_battle()
             if result != "player2":
                 self.verificationErrors.append(f"set_mode_battle() logic error {result}")
         except Exception as e:
@@ -27,9 +31,8 @@ class TestBattle(TesterBase):
     def test_rotating_mode_battle(self):
         try:
             b = Battle("player1", "player2")
-            with captured_output("0 1 1\n1 1 1") as (inp, out, err):
-                b.rotating_mode_battle()
-            result = "player2"
+            with captured_output("1 1 0\n1 1 1") as (inp, out, err):
+                result = b.rotating_mode_battle()
             if result != "player2":
                 self.verificationErrors.append(f"rotating_mode() logic error {result}")
         except Exception as e:
@@ -42,8 +45,7 @@ class TestBattle(TesterBase):
         try:
             b = Battle("player1", "player2")
             with captured_output("0 1 1\n1 1 1") as (inp, out, err):
-                b.optimised_mode_battle('hp','level')
-            result = "player2"
+                result = b.optimised_mode_battle('hp','level')
             if result != "player2":
                 self.verificationErrors.append(f"optimised_mode_battle() logic error {result}")
         except Exception as e:
@@ -54,10 +56,19 @@ class TestBattle(TesterBase):
     def test_result(self):
         try:
             b = Battle("player1", "player2")
-            b.player1.set_battle_mode(0)
-            b.player2.set_battle_mode(0)
-            b.player1.assign_team(1,1,1)
-            b.player2.assign_team(0,0,0)
+            with captured_output("1 1 1\n1 1 1") as (inp, out, err):
+                b.set_mode_battle()
+                result = b.result()
+            if result != "Draw":
+                self.verificationErrors.append(f"result() logic error {result}")
+        except Exception as e:
+            self.verificationErrors.append(f"result() failed: {e}")
+            return
+        try:
+            b = Battle("player1", "player2")
+            with captured_output("0 0 1\n0 0 0") as (inp, out, err):
+                b.rotating_mode_battle()
+                result = b.result()
             result = b.result()
             if result != "player1":
                 self.verificationErrors.append(f"result() logic error {result}")
@@ -66,27 +77,15 @@ class TestBattle(TesterBase):
             return
         try:
             b = Battle("player1", "player2")
-            b.player1.set_battle_mode(1)
-            b.player2.set_battle_mode(1)
-            b.player1.assign_team(0,0,0)
-            b.player2.assign_team(0,0,1)
+            with captured_output("0 0 0\n0 0 1") as (inp, out, err):
+                b.optimised_mode_battle('hp', 'attack')
+                result = b.result()
             result = b.result()
             if result != "player2":
                 self.verificationErrors.append(f"result() logic error {result}")
         except Exception as e:
             self.verificationErrors.append(f"result() failed: {e}")
-            return
-        try:
-            b = Battle("player1", "player2")
-            b.player1.set_battle_mode(1)
-            b.player2.set_battle_mode(1)
-            b.player1.assign_team(0,0,0)
-            b.player2.assign_team(0,0,0)
-            result = b.result()
-            if result != "Draw":
-                self.verificationErrors.append(f"result() logic error {result}")
-        except Exception as e:
-            self.verificationErrors.append(f"result() failed: {e}")
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestBattle)
