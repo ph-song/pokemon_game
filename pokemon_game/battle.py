@@ -68,7 +68,7 @@ class Battle:
         
         return self.result() #return result
 
-    #task 4  
+    #task 4 
     def rotating_mode_battle(self) -> None:
         """fight in battle mode 1, rotating mode"""
         #choose team

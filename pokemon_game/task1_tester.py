@@ -71,7 +71,6 @@ class TestTask1(TesterBase):
         from pokemon import Charmander, Bulbasaur
         b = Bulbasaur()
         try:
-            # b.set_hp(b.get_hp() - (b.get_attack() * 2))
             flag = b.is_fainted()
             if flag != False:
                 self.verificationErrors.append(f"Is_faint method did not return correct float: {flag}")

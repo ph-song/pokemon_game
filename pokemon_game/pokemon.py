@@ -157,7 +157,6 @@ class MissingNo(GlitchMon):
 
     def __init__(self)-> None:
         GlitchMon.__init__(self, self.HP, self.MYST_NAME)
-        self.name = self.MYST_NAME
 
     def get_attack(self):
         """return pokemon attack"""

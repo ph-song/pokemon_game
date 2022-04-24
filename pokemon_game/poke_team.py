@@ -15,8 +15,7 @@ class PokeTeam:
         self.trainer_name = trainer_name
         self.team = None 
         self.criterion = None
-        self.myst = False
-     
+  
     def __str__(self):
         return str(self.team)
 
@@ -94,7 +93,7 @@ class PokeTeam:
         #when battle_mode == 2
         elif self.get_battle_mode() == 2:
             self.populate_sorted_list(charm, bulb, squir, myst)
-    
+            
     def populate_stack(self, charm: int, bulb: int, squir: int, myst: int = 0):
         self.team = ArrayStack(self.POKEMON_LIMIT)
         if bool(myst):
@@ -106,7 +105,6 @@ class PokeTeam:
         for i in range(charm):
             self.team.push(Charmander())
         
-    
     def populate_queue(self, charm: int, bulb: int, squir: int, myst: int = 0):
         self.team = CircularQueue(self.POKEMON_LIMIT)
         for i in range(charm):
@@ -117,6 +115,7 @@ class PokeTeam:
             self.team.append(Squirtle())
         if bool(myst):
             self.team.append(MissingNo())
+
 
     def populate_sorted_list(self, charm: int, bulb: int, squir: int, myst: int = 0):
         self.team = ArraySortedList(self.POKEMON_LIMIT)
@@ -139,7 +138,11 @@ class PokeTeam:
             
 """
 a = PokeTeam("haha")
-a.choose_team(0, None)
+
+a.choose_team(2, "speed")
+
+a.get_trainer_name()
+
 #a.populate_stack(1,1,1,1)
 print(a)
 
