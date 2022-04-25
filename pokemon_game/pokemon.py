@@ -1,11 +1,12 @@
 from pokemon_base import PokemonBase
 from typing import Type 
 from random import randint
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 
 class Charmander(PokemonBase):
 
+    #Charmander attribute base value
     ATTACK = 6
     DEFENCE = 4
     SPEED = 7
@@ -14,62 +15,52 @@ class Charmander(PokemonBase):
     NAME = "Charmander"
 
     def __init__(self)-> None:
-        """ Initialiser method of Charmander class.
+        """ Charmander constructor
 
-        :pre: hp >= 0
-        :complexity: O(1), __init__ method of parent class PokemonBase is O(1),
-                     assignments have constant cost,
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         PokemonBase.__init__(self, self.HP, self.POKE_TYPE)
         self.name = self.NAME 
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
-        """ Pokemon initiates attack.
+        """ Charmander attacked by pokemon and lose hp
 
         :param arg1: the attacker
-        :complexity: O(1), numerical comparison, numerical arithmetic and assignments have constant cost,
-                     get_hp(), get_attack(), damage_multiplier(), get_defence(), set_hp() are all O(1),
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
-        # calculates the effective damage
-        attacker_damage = attacker.get_attack() * attacker.damage_multiplier(self)
+        attacker_damage = attacker.get_attack() * attacker.damage_multiplier(self) #effective damage
 
-        # check if attacker's damage is greater than defender's defence
+        #actual damage caused
         if attacker_damage > self.get_defence():
             self.set_hp(self.get_hp() - attacker_damage)
         else:
             self.set_hp(self.get_hp() - attacker_damage//2)
     
     def get_attack(self):
-        """ Attribute attack getter.
+        """ return Charmander attack
 
-        :complexity: O(1), return statements and numerical arithmetic have constant cost,
-                     get_level() is O(1),
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return self.ATTACK + self.get_level()
     
     def get_defence(self):
-        """ Attribute defence getter.
+        """ return Charmander defence
 
-        :complexity: O(1), return statements have constant cost,
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return self.DEFENCE
     
     def get_speed(self):
-        """ Attribute speed getter.
+        """ return Charmander speed
 
-        :complexity: O(1), return statements and numerical arithmetic have constant cost,
-                     get_level() is O(1),
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return self.SPEED + self.get_level()
 
 
 class Bulbasaur(PokemonBase):
 
+    #Balbasaur attributes base value
     ATTACK = 5
     DEFENCE = 5
     SPEED = 7
@@ -82,36 +73,34 @@ class Bulbasaur(PokemonBase):
         self.name = self.NAME
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
-        """ Pokemon initiates attack.
+        """ Bulbasaur attacked by pokemon and lose hp
 
         :param arg1: the attacker
-        :complexity: O(1), numerical comparison, numerical arithmetic and assignments have constant cost,
-                     get_hp(), get_attack(), damage_multiplier(), get_defence(), set_hp() are all O(1),
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worse case = best case
         """
-        # calculates the effective damage
-        attacker_damage = attacker.get_attack() * attacker.damage_multiplier(self)
+        attacker_damage = attacker.get_attack() * attacker.damage_multiplier(self) # effective damage
 
-        # check if attacker's damage is greater than defender's defence + 5
+        #actual damage caused
         if attacker_damage > self.get_defence() + 5 :
             self.set_hp(self.get_hp() - attacker_damage)
         else:
             self.set_hp(self.get_hp() - attacker_damage//2)
         
     def get_attack(self):
-        """return pokemon attack"""
+        """return Bulbasaur attack"""
         return self.ATTACK
     
     def get_defence(self):
-        """pokemon defence getter"""
+        """return Bulbasaur defence"""
         return self.DEFENCE
     
     def get_speed(self):
-        """return pokemon speed"""
+        """return Bulbasaur speed"""
         return self.SPEED + self.get_level()//2
 
 class Squirtle(PokemonBase):
 
+    #Squirtle attributes base value
     ATTACK = 4
     DEFENCE = 6
     SPEED = 7
@@ -120,23 +109,19 @@ class Squirtle(PokemonBase):
     NAME = "Squirtle"
 
     def __init__(self)-> None:
-        """ Initialiser method of Squirtle class.
+        """ Squirtle constuctor
 
-        :pre: hp >= 0
-        :complexity: O(1), __init__ method of parent class PokemonBase is O(1),
-                     assignments have constant cost,
-                     Best case = Worst case because no element properties can change this
+        :raise : hp >= 0
+        :complexity: O(1), best case = worst case
         """
         PokemonBase.__init__(self, self.HP, self.POKE_TYPE)
         self.name = self.NAME
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
-        """ Pokemon initiates attack.
+        """ Squirtle attacked by pokemon and lose hp
 
         :param arg1: the attacker
-        :complexity: O(1), numerical comparison, numerical arithmetic and assignments have constant cost,
-                     get_hp(), get_attack(), damage_multiplier(), get_defence(), set_hp() are all O(1),
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), best case = worst case
         """
         # calculates the effective damage
         attacker_damage = attacker.get_attack() * attacker.damage_multiplier(self)
@@ -148,15 +133,15 @@ class Squirtle(PokemonBase):
             self.set_hp(self.get_hp() - attacker_damage//2)
 
     def get_attack(self):
-        """return pokemon attack"""
+        """return Squirtle attack"""
         return self.ATTACK + self.get_level()//2
     
     def get_defence(self):
-        """pokemon defence getter"""
+        """return Squirtle defence"""
         return self.DEFENCE + self.get_level()
     
     def get_speed(self):
-        """return pokemon speed"""
+        """return Squirtle speed"""
         return self.SPEED
 
 
@@ -164,12 +149,10 @@ class GlitchMon(PokemonBase):
     POKE_TYPE = None
 
     def __init__(self, hp: int, name: str)-> None:
-        """ Initialiser method of GlitchMon class.
+        """ GlitchMon constructor 
 
         :pre: hp >= 0
-        :complexity: O(1), __init__ method of parent class PokemonBase is O(1),
-                     assignments have constant cost,
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         PokemonBase.__init__(self, hp, self.POKE_TYPE)
         self.name = name
@@ -180,6 +163,10 @@ class GlitchMon(PokemonBase):
         self.set_hp(self.get_hp() - attacker.get_attack())
 
     def super_power(self):
+        """GlitchMon superpower, increases GlitchMon hp or level or both by one
+
+        :complexity: O(1), worst case = best case
+        """
         i = randint(0,2)
         if i == 0:
             self.set_hp(self.get_hp() +1)
@@ -191,17 +178,26 @@ class GlitchMon(PokemonBase):
 
     @abstractmethod
     def get_attack(self):
-        """return pokemon attack"""
+        """return GlitchNo attack
+        
+        :complexity: O(1), worst case = best case
+        """
         pass
     
     @abstractmethod
     def get_defence(self):
-        """pokemon defence getter"""
+        """return GlitchNo defence
+        
+        :complexity: O(1), worst case = best case
+        """
         pass
     
     @abstractmethod
     def get_speed(self):
-        """return pokemon speed"""
+        """return GlitchNo speed
+        
+        :complexity: O(1), worst case = best case
+        """
         pass
 
 class MissingNo(GlitchMon):
@@ -212,17 +208,25 @@ class MissingNo(GlitchMon):
         GlitchMon.__init__(self, self.HP, self.MYST_NAME)
 
     def get_attack(self):
-        """return pokemon attack"""
+        """return MissingNo attack
+        
+        :complexity: O(1), worst case = best case
+        """
         sum = Charmander.ATTACK + self.get_level() + Bulbasaur.ATTACK + Squirtle.ATTACK + self.get_level()//2
         return sum/3 + self.get_level() -1
     
     def get_defence(self):
-        """pokemon defence getter"""
+        """return MissingNo defence
+        
+        :complexity: O(1), worst case = best case
+        """
         sum = Charmander.DEFENCE + Bulbasaur.DEFENCE + Squirtle.DEFENCE + self.get_level()
         return sum/3 + self.get_level() -1
     
     def get_speed(self) -> int:
-        """return pokemon speed"""
+        """return MissingNo speed
+        
+        :complexity: O(1), worst case = best case
+        """
         sum = Charmander.SPEED + self.get_level() + Bulbasaur.SPEED + self.get_level()//2 + Squirtle.SPEED
         return sum/3 + self.get_level() -1
-

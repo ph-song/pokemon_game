@@ -11,10 +11,9 @@ class PokeTeam:
     INITIAL_BATTLE_MODE = 0
 
     def __init__(self, trainer_name: str) -> None:
-        """ Initialiser method of PokeTeam class.
+        """ PokeTeam constructor
 
-        :complexity: O(1), all assignments have constant cost
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         self.battle_mode = self.INITIAL_BATTLE_MODE
         self.trainer_name = trainer_name
@@ -22,62 +21,63 @@ class PokeTeam:
         self.criterion = None
   
     def __str__(self) ->str:
-        """ String method of PokeTeam class.
+        """ PokeTeam string method
 
-        :complexity: O(n), where n = number of elements in team,
-                     iterating each element in team to convert them into str,
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(n), where n = number of elements in team
+                     worst case = best case
         """
         return str(self.team)
 
     def get_trainer_name(self) ->str:
-        """ Attribute trainer_name getter.
+        """return team's trainer_name
 
-        :complexity: O(1), return statements have constant cost,
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), best worst case = best case
         """
         return self.trainer_name
 
     def get_battle_mode(self) ->int:
-        """ Attribute battle_mode getter.
+        """return team's battle_mode
 
-        :complexity: O(1), return statements have constant cost,
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return self.battle_mode
     
     def set_battle_mode(self, battle_mode: int) ->None:
-        """ Attribute battle_mode setter.
+        """set team battle_mode
 
-        :pre: battle_mode can either only be 0,1,2
-        :complexity: O(1), raising exceptions and assignments have constant cost,
-                     checking whether battle_mode in range(3) has constant cost as well,
-                     Best case = Worst case because no element properties can change this
+        :raise ValueError: if battle_mode not in range(3)
+        :complexity: O(1), worst case = best case
         """
         # checks validity of battle_mode
         if battle_mode not in range(3):
             raise ValueError("unavailable battle mode")
+
         self.battle_mode = battle_mode
     
     def set_criterion(self, criterion: str) ->None:
-        """ Attribute criterion setter.
+        """set team criterion
 
-        :complexity: O(1), all assignments have constant cost
-                     Best case = Worst case because no element properties can change this
+        :raise ValueError: if criterion is invalid
+        :complexity: O(1), worst case = best case
         """
+        #check validity of criterion 
         if criterion not in [None, 'hp', 'level', 'attack', 'defence', 'speed']:
-            raise Exception("invalid critereon")
+            raise ValueError("invalid criterion")
         self.criterion = criterion
     
     def get_criterion(self) ->str:
-        """ Attribute criterion getter.
+        """return team's criterion
 
-        :complexity: O(1), return statements have constant cost
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return self.criterion
     
     def get_criterion_val(self, poke: Type[PokemonBase]):
+        """return pokemon's criterion value
+
+        :param arg1: pokemon to get its criterion value
+        :complexity: O(1), worst case = best case
+        """
         criterion_table = {
             'hp': poke.get_hp(),
             'level': poke.get_level(),
@@ -89,8 +89,12 @@ class PokeTeam:
         return criterion_table[criterion]
     
     def choose_team(self, battle_mode: int, criterion: str = None) -> None:
-        """ Choose number of pokemons for each type to form a team.
+        """take input from user to set up team
 
+        :param arg1: team battle mode
+        :param arg2: team criterion 
+        :pre: invalid user input
+        :post: valid user input
         :complexity:
         """
         
@@ -103,29 +107,32 @@ class PokeTeam:
 
         while not valid_input: #exit while loop only if user gives valid input
             try:
-                user_input = input(prompt)
-                charm, bulb, squir = int(user_input[0]), int(user_input[2]), int(user_input[4])
+                user_input = input(prompt) #take input from user
+                charm, bulb, squir = int(user_input[0]), int(user_input[2]), int(user_input[4]) #extract value from input
 
                 #check MissingNo
                 myst = 0
                 if len(user_input) >=6:
                     myst = int(user_input[6])
-
+                    
                 self.assign_team(charm, bulb, squir, myst) #popoulate team
-
             except Exception:
                 print("invalid input")
             else:
                 valid_input = True
 
     def assign_team(self, charm: int, bulb: int, squir: int, myst: int = 0) -> None:
-        """ Populates the team according to the battle mode.
+        """ populate team based on battle_mode
 
+        :param arg1: number of Charmander
+        :param arg2: number of Bulbasaur
+        :param arg3: number of Squirtle 
+        :param arg4: number of MissingNo
         :complexity:
         """
-        pokemon_num = charm + bulb + squir + myst # total number of pokemon
+        pokemon_num = charm + bulb + squir + myst # total number of pokemons
 
-        #raise error if pokemon number exceed limit
+        #check pokemon number validity 
         if pokemon_num > self.POKEMON_LIMIT or myst > 1:
             raise ValueError("invalid pokemon number")
         
@@ -142,63 +149,86 @@ class PokeTeam:
             self.populate_sorted_list(charm, bulb, squir, myst)
             
     def populate_stack(self, charm: int, bulb: int, squir: int, myst: int = 0) ->None:
-        """ Populates the team using stack. Last in first out for battle mode 0.
+        """ populate team with Stack
 
-        :complexity: O(n), where n = charm/bulb/squir,
-                     Best case = Worst case because no element properties can change this
+        :param arg1: number of Charmander
+        :param arg2: number of Bulbasaur
+        :param arg3: number of Squirtle 
+        :param arg4: number of MissingNo
+        :complexity: O(n), where n = max(charm, squir, bulb, myst)
+                     best case = worse case
         """
         self.team = ArrayStack(self.POKEMON_LIMIT) #instantiate ArrayStack
 
-        #populate stack
+        #populate stack with pokemons
+        #MissingNp
         if bool(myst):
             self.team.push(MissingNo())
+        #Squirtle
         for i in range(squir):
             self.team.push(Squirtle())
+        #Bulbasaur
         for i in range(bulb):
             self.team.push(Bulbasaur())
+        #Charmander
         for i in range(charm):
             self.team.push(Charmander())
         
     def populate_queue(self, charm: int, bulb: int, squir: int, myst: int = 0) ->None:
-        """ Populates the team using circular queue. First in first out for battle mode 1.
+        """ populate team with CircularQueue
 
-        :complexity: O(n), where n = charm/bulb/squir,
-                     Best case = Worst case because no element properties can change this
+        :param arg1: number of Charmander
+        :param arg2: number of Bulbasaur
+        :param arg3: number of Squirtle 
+        :param arg4: number of MissingNo
+        :complexity: O(n), where n = max(charm, squir, bulb, myst)
+                     best case = worse case
         """
         self.team = CircularQueue(self.POKEMON_LIMIT) #instantiate CircularQueue
 
-        #populate CircularQueue
+        #populate CircularQueue withh pokemons
+        #Charmander
         for i in range(charm):
             self.team.append(Charmander())
+        #Bulbasaur
         for i in range(bulb):
             self.team.append(Bulbasaur())
+        #Squirtle
         for i in range(squir):
             self.team.append(Squirtle())
+        #MisingNo
         if bool(myst):
             self.team.append(MissingNo())
 
 
     def populate_sorted_list(self, charm: int, bulb: int, squir: int, myst: int = 0) ->None:
-        """ Populates the team using circular queue. First in first out for battle mode 1.
+        """ populate team with SortedArrayList
 
-        :complexity: O(n), where n = charm/bulb/squir,
-                     Best case = Worst case because no element properties can change this
+        :param arg1: number of Charmander
+        :param arg2: number of Bulbasaur
+        :param arg3: number of Squirtle 
+        :param arg4: number of MissingNo
+        :complexity: 
         """
         self.team = ArraySortedList(self.POKEMON_LIMIT) #instantiate ArraySortedList
 
-        #populate ArraySortedList
+        #populate ArraySortedList with pokemons
+        #Squirtle
         for i in range(squir):
             value = Squirtle()
             key = self.get_criterion_val(value)
             self.team.add(ListItem(value, key))
+        #Bulbasaur
         for i in range(bulb):
             value = Bulbasaur()
             key = self.get_criterion_val(value)
             self.team.add(ListItem(value, key))
+        #Charmander
         for i in range(charm):
             value = Charmander()
             key = self.get_criterion_val(value)
             self.team.add(ListItem(value, key))
+        #MissingNo
         if bool(myst):
             value = MissingNo()
             key = float('inf')

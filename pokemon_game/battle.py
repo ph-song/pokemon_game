@@ -13,8 +13,11 @@ class Battle:
         self.battle_mode = None 
 
     def fight(self, poke1: Type[PokemonBase], poke2: Type[PokemonBase]):
-        """2 pokemon fight"""
-        #pokemon with higher speed initial attack
+        """2 pokemon fight with each other
+        
+        :complexity: O(1), worst case = best case
+        """
+        #pokemon with higher speed initialize attack
         if poke1.get_speed() != poke2.get_speed():
             if poke1.get_speed() > poke2.get_speed():
                 attacker = poke1
@@ -24,23 +27,25 @@ class Battle:
                 attacker = poke2
             defender.attacked_by(attacker)
 
-            #defender retort
+            #defender retort if not fainted
             if not defender.is_fainted():
                 attacker.attacked_by(defender)
         
-        #poke1 and poke2 have equal speed and attack each other
+        #poke1 and poke2 attack each other if both have equal speed
         else:
             poke1.attacked_by(poke2)
             poke2.attacked_by(poke1)
         
-        #if both are still alive 
+        #lose one hp if both are still not fainted
         if not poke1.is_fainted() and not poke2.is_fainted():
             poke1.set_hp(poke1.get_hp()-1)
             poke2.set_hp(poke2.get_hp()-1)
 
+        #return if both fainted
         if poke1.is_fainted() and poke2.is_fainted():
-            return     
-        #if one poke fainted, another still live 
+            return
+
+        #not fainted pokemon level up if another pokemon fainted
         elif poke1.is_fainted():
             poke2.set_level(poke2.get_level() +1)
         elif poke2.is_fainted():
@@ -48,7 +53,12 @@ class Battle:
 
     #task 3
     def set_mode_battle(self)-> str:
-        """fight in battle mode 0, basic mode"""
+        """battle in basic mode
+        
+        :pre: both team array is not empty
+        :post: one of the team array is empty
+        :complexity:
+        """
         #choose team
         self.player1.choose_team(0)
         self.player2.choose_team(0)
@@ -71,14 +81,18 @@ class Battle:
 
     #task 4 
     def rotating_mode_battle(self) -> str:
-        """fight in battle mode 1, rotating mode"""
+        """battle in rotating mode
+        
+        :pre: both team array is not empty
+        :post: one of the team array is empty
+        :complexity:
+        """
         #choose team
         self.player1.choose_team(1)
         self.player2.choose_team(1)
 
         #battle
         while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
-            
             #serve pokemon from queue
             poke1 = self.player1.team.serve()
             poke2 = self.player2.team.serve()
@@ -103,19 +117,24 @@ class Battle:
     
     #task 5
     def optimised_mode_battle(self, criterion_team1: str, criterion_team2: str) ->str:
-        """fight in battle mode 2, optimised mode"""
+        """battle in optimised mode
+
+        :pre: both team array is not empty
+        :post: one of the team array is empty
+        :complexity:
+        """
         self.player1.choose_team(2, criterion_team1)
         self.player2.choose_team(2, criterion_team2)
 
-        
+        #battle
         while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
-            
+            #remove last pokemon in team
             poke1 = (self.player1.team.delete_at_index(len(self.player1.team)-1)).value
             poke2 = (self.player2.team.delete_at_index(len(self.player2.team)-1)).value
 
             self.fight(poke1, poke2) #pokemon fight with each other
 
-            #append not fainted pokemon back to queue
+            #add not fainted pokemon back to sorted list
             if not poke1.is_fainted():
                 key = self.player1.get_criterion_val(poke1)
                 self.player1.team.add(ListItem(poke1, key))
@@ -123,10 +142,13 @@ class Battle:
                 key = self.player2.get_criterion_val(poke2)
                 self.player2.team.add(ListItem(poke2, key)) 
 
-        return self.result()
+        return self.result() #return result
 
     def result(self)-> str:
-        """return trainer name of won team"""
+        """return trainer_name of won team
+        
+        :complexity: O(1), worst case = best case
+        """
         #check if the player is defeated
         p1_is_defeated = self.player1.team.is_empty()
         p2_is_defeated = self.player2.team.is_empty()

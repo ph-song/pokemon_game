@@ -12,14 +12,12 @@ class PokemonBase(ABC):
         }
 
     def __init__(self, hp: int, poke_type: str) -> None:
-        """ Initialiser method of PokemonBase class.
+        """ constructor of PokemonBase
 
         :pre: hp >= 0
-        :complexity: O(1), numerical comparison, 
-                     raising exception and assignments have constant cost,
-                     best case = worst case as no element properties can change this
+        :complexity: O(1), worst case = best case
         """
-        # Check validity of pre-condition
+        # Check validity of hp
         if hp < 0:
             raise ValueError("HP can't be negative")
     
@@ -28,61 +26,54 @@ class PokemonBase(ABC):
         self.level = self.INITIAL_LEVEL
         
     def __str__(self) ->str:
-        """ Attribute poke_type getter.
+        """ PokemonBase constructor
 
-        :complexity: O(1), return statements have constant cost,
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return f"{self.get_name()}'s HP = {self.get_hp()} and level = {self.get_level()}"
 
     def get_type(self) ->str:
-        """ Attribute poke_type getter.
+        """ return pokemon poke_type
 
-        :complexity: O(1), return statements have constant cost,
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return self.poke_type
 
     def get_name(self) ->str:
-        """Attribute name getter.
+        """return pokemon's name
 
-        :complexity: O(1), return statements have constant cost,
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return self.name
 
     def set_hp(self, hp: int) -> None:
-        """ Attribute hp setter.
+        """set pokemon's hp
 
-        :complexity: O(1), numerical comparison, raising exception and assignments have constant cost,
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         self.hp = hp
 
     def get_hp(self) ->int:
-        """ Attribute hp getter.
+        """ return pokemon's hp
 
-        :complexity: O(1), return statements have constant cost
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return self.hp
 
     def set_level(self, level) -> None:
-        """ Attribute level setter.
+        """set level
 
-        :pre: level >= 1
-        :complexity: O(1), numerical comparison, raising exception and assignments have constant cost,
-                     Best case = Worst case because no element properties can change this
+        :raises ValueError: if level <= 0
+        :complexity: O(1), worst case = best case
         """
         if level < 1:
-            raise ValueError("Level must be greater than zero")
+            raise ValueError("level must be positive value")
         self.level = level
 
     def get_level(self) ->int:
-        """ Attribute level getter.
+        """return pokemon level
 
-        :complexity: O(1), return statements have constant cost
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return self.level
 
@@ -102,16 +93,15 @@ class PokemonBase(ABC):
         pass
 
     def is_fainted(self) ->bool:
-        """ Check if pokemon is fainted.
+        """return True is pokemon hp <= 0 else False
 
-        :complexity: O(1), numerical comparison, return statements have constant cost
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return self.hp<=0
 
     @abstractmethod
     def attacked_by(self, attacker: "PokemonBase") -> None:
-        """ Pokemon initiates attack.
+        """ pokemon attacked by another pokemon
 
         :param arg1: the attacker
         """
@@ -121,9 +111,9 @@ class PokemonBase(ABC):
         """ Returns multiplier of attack based on pokemon type of attacker and defender.
 
         :param arg1: the defender
-        :complexity: O(1), accessing element in a dictionary has constant cost
-                     Best case = Worst case because no element properties can change this
+        :complexity: O(1), worst case = best case
         """
         return self.TYPE_EFFECTIVENESS[self.get_type()][defender.get_type()]
+
 
 
