@@ -1,6 +1,12 @@
-from abc import ABC, abstractmethod
+""" 
+Filename: pokemon_base.py
+Class: PokemonBase
+"""
 
-from typing import Type
+__author__ = "FIT1008 T03G06"
+
+from abc import ABC, abstractmethod
+from typing import Type, Union
 
 class PokemonBase(ABC):
     INITIAL_LEVEL = 1
@@ -26,7 +32,7 @@ class PokemonBase(ABC):
         self.level = self.INITIAL_LEVEL
         
     def __str__(self) ->str:
-        """ PokemonBase constructor
+        """ PokemonBase string method
 
         :complexity: O(1), worst case = best case
         """
@@ -40,28 +46,28 @@ class PokemonBase(ABC):
         return self.poke_type
 
     def get_name(self) ->str:
-        """return pokemon's name
+        """return pokemon name
 
         :complexity: O(1), worst case = best case
         """
         return self.name
 
-    def set_hp(self, hp: int) -> None:
-        """set pokemon's hp
+    def set_hp(self, hp:Union[int, float]) -> None:
+        """set pokemon hp
 
         :complexity: O(1), worst case = best case
         """
         self.hp = hp
 
-    def get_hp(self) ->int:
-        """ return pokemon's hp
+    def get_hp(self) ->Union[int, float]:
+        """ return pokemon hp
 
         :complexity: O(1), worst case = best case
         """
         return self.hp
 
     def set_level(self, level) -> None:
-        """set level
+        """set pokemon level
 
         :raises ValueError: if level <= 0
         :complexity: O(1), worst case = best case
@@ -107,13 +113,12 @@ class PokemonBase(ABC):
         """
         pass
 
-    def damage_multiplier(self, defender: 'PokemonBase') -> float:
-        """ Returns multiplier of attack based on pokemon type of attacker and defender.
+    def damage_multiplier(self, defender: "PokemonBase") -> Union[int, float]:
+        """returns multiplier of attack based on pokemon type of attacker and defender
 
         :param arg1: the defender
         :complexity: O(1), worst case = best case
         """
         return self.TYPE_EFFECTIVENESS[self.get_type()][defender.get_type()]
-
 
 

@@ -1,3 +1,10 @@
+""" 
+Filename: battle.py
+Class: Battle
+"""
+
+__author__ = "FIT1008 T03G06"
+
 from typing import Type
 from poke_team import PokeTeam
 from pokemon_base import PokemonBase
@@ -7,12 +14,12 @@ from pokemon import MissingNo
 
 class Battle:
 
-    def __init__(self, trainer_one_name: str, trainer_two_name: str)->None :
+    def __init__(self, trainer_one_name: str, trainer_two_name:str)->None :
         self.player1 = PokeTeam(trainer_one_name)
         self.player2 = PokeTeam(trainer_two_name)
         self.battle_mode = None 
 
-    def fight(self, poke1: Type[PokemonBase], poke2: Type[PokemonBase]):
+    def fight(self, poke1:Type[PokemonBase], poke2:Type[PokemonBase]) ->None:
         """2 pokemon fight with each other
         
         :complexity: O(1), worst case = best case
@@ -55,9 +62,11 @@ class Battle:
     def set_mode_battle(self)-> str:
         """battle in basic mode
         
-        :pre: both team array is not empty
+        :pre: both team array are not empty
         :post: one of the team array is empty
-        :complexity:
+        :complexity: best O(n) if one pokemon defeated another team all pokemon
+                     worst O(n^2), if each pokemon fight at least 2 round
+                     where n = len(defeated pokemon team)
         """
         #choose team
         self.player1.choose_team(0)
@@ -83,9 +92,11 @@ class Battle:
     def rotating_mode_battle(self) -> str:
         """battle in rotating mode
         
-        :pre: both team array is not empty
+        :pre: both team array are not empty
         :post: one of the team array is empty
-        :complexity:
+        :complexity: best O(n) if one pokemon defeated another team all pokemon
+                     worst O(n^2), if each pokemons fought 2 rounds
+                     where n = len(defeated pokemon team)
         """
         #choose team
         self.player1.choose_team(1)
@@ -121,7 +132,10 @@ class Battle:
 
         :pre: both team array is not empty
         :post: one of the team array is empty
-        :complexity:
+        :complexity: best O(n) if one pokemon defeated another team all pokemons
+                     worst O(n^3) if all pokemons fought 2 rounds 
+                     and inserted at index 0 after 1 round
+                     where n = len(defeated pokemon team)
         """
         self.player1.choose_team(2, criterion_team1)
         self.player2.choose_team(2, criterion_team2)

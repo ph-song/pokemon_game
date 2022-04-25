@@ -1,3 +1,10 @@
+""" 
+Filename: pokemon.py
+Class: Charmander, Bulbasaur, ,Squirtle, GlitchMon, MissingNo
+"""
+
+__author__ = "FIT1008 T03G06"
+
 from pokemon_base import PokemonBase
 from typing import Type 
 from random import randint
@@ -36,21 +43,21 @@ class Charmander(PokemonBase):
         else:
             self.set_hp(self.get_hp() - attacker_damage//2)
     
-    def get_attack(self):
+    def get_attack(self) ->int:
         """ return Charmander attack
 
         :complexity: O(1), worst case = best case
         """
         return self.ATTACK + self.get_level()
     
-    def get_defence(self):
+    def get_defence(self) ->int:
         """ return Charmander defence
 
         :complexity: O(1), worst case = best case
         """
         return self.DEFENCE
     
-    def get_speed(self):
+    def get_speed(self) ->int:
         """ return Charmander speed
 
         :complexity: O(1), worst case = best case
@@ -86,16 +93,25 @@ class Bulbasaur(PokemonBase):
         else:
             self.set_hp(self.get_hp() - attacker_damage//2)
         
-    def get_attack(self):
-        """return Bulbasaur attack"""
+    def get_attack(self) ->int:
+        """return Bulbasaur attack
+        
+        :complexity: O(1), best case = worst case
+        """
         return self.ATTACK
     
-    def get_defence(self):
-        """return Bulbasaur defence"""
+    def get_defence(self) ->int:
+        """return Bulbasaur defence
+        
+        :complexity: O(1), best case = worst case
+        """
         return self.DEFENCE
     
-    def get_speed(self):
-        """return Bulbasaur speed"""
+    def get_speed(self) ->int:
+        """return Bulbasaur speed
+        
+        :complexity: O(1), best case = worst case
+        """
         return self.SPEED + self.get_level()//2
 
 class Squirtle(PokemonBase):
@@ -132,15 +148,21 @@ class Squirtle(PokemonBase):
         else:
             self.set_hp(self.get_hp() - attacker_damage//2)
 
-    def get_attack(self):
-        """return Squirtle attack"""
+    def get_attack(self)->int:
+        """return Squirtle attack
+        
+        :complexity: O(1), best case = worst case
+        """
         return self.ATTACK + self.get_level()//2
     
-    def get_defence(self):
-        """return Squirtle defence"""
+    def get_defence(self)->int:
+        """return Squirtle defence
+
+        :complexity: O(1), best case = worst case
+        """
         return self.DEFENCE + self.get_level()
     
-    def get_speed(self):
+    def get_speed(self)->int:
         """return Squirtle speed"""
         return self.SPEED
 
@@ -158,7 +180,7 @@ class GlitchMon(PokemonBase):
         self.name = name
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
-        if randint(1,4) == 1: #1 out of 4 gives 25% chance
+        if randint(1,4) == 1: #1 out of 4 gives 25% probability 
             self.super_power()
         self.set_hp(self.get_hp() - attacker.get_attack())
 
@@ -177,7 +199,7 @@ class GlitchMon(PokemonBase):
             self.set_level(self.get_level()+1)
 
     @abstractmethod
-    def get_attack(self):
+    def get_attack(self)->int:
         """return GlitchNo attack
         
         :complexity: O(1), worst case = best case
@@ -185,7 +207,7 @@ class GlitchMon(PokemonBase):
         pass
     
     @abstractmethod
-    def get_defence(self):
+    def get_defence(self)->int:
         """return GlitchNo defence
         
         :complexity: O(1), worst case = best case
@@ -193,7 +215,7 @@ class GlitchMon(PokemonBase):
         pass
     
     @abstractmethod
-    def get_speed(self):
+    def get_speed(self)->int:
         """return GlitchNo speed
         
         :complexity: O(1), worst case = best case
@@ -207,7 +229,7 @@ class MissingNo(GlitchMon):
     def __init__(self)-> None:
         GlitchMon.__init__(self, self.HP, self.MYST_NAME)
 
-    def get_attack(self):
+    def get_attack(self)->int:
         """return MissingNo attack
         
         :complexity: O(1), worst case = best case
@@ -215,7 +237,7 @@ class MissingNo(GlitchMon):
         sum = Charmander.ATTACK + self.get_level() + Bulbasaur.ATTACK + Squirtle.ATTACK + self.get_level()//2
         return sum/3 + self.get_level() -1
     
-    def get_defence(self):
+    def get_defence(self)->int:
         """return MissingNo defence
         
         :complexity: O(1), worst case = best case
