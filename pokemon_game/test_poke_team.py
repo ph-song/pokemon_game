@@ -25,7 +25,7 @@ class TestPokeTeam(TesterBase):
                 t.choose_team(0)
                 result = str(t)
             if result != "Charmander's HP = 7 and level = 1, Bulbasaur's HP = 9 and level = 1, Squirtle's HP = 8 and level = 1":
-                self.verificationErrors.append(f"choose_team() logic error {result}")
+                self.verificationErrors.append(f"battle mode 1 choose_team() logic error {result}")
         except Exception as e:
             self.verificationErrors.append(f"choose_team() failed: {e}")
             return
@@ -36,7 +36,7 @@ class TestPokeTeam(TesterBase):
                 t.choose_team(1)
                 result = str(t)
             if result != "Charmander's HP = 7 and level = 1, Bulbasaur's HP = 9 and level = 1, Squirtle's HP = 8 and level = 1":
-                self.verificationErrors.append(f"choose_team() logic error {result}")
+                self.verificationErrors.append(f"battle mode 1 choose_team() logic error {result}")
         except Exception as e:
             self.verificationErrors.append(f"choose_team() failed: {e}")
             return
@@ -47,7 +47,7 @@ class TestPokeTeam(TesterBase):
                 t.choose_team(2, "speed")
                 result = str(t)
             if result != "Charmander's HP = 7 and level = 1, Bulbasaur's HP = 9 and level = 1, Squirtle's HP = 8 and level = 1":
-                self.verificationErrors.append(f"choose_team() logic error {result}")
+                self.verificationErrors.append(f"battle mode 2 choose_team() logic error {result}")
         except Exception as e:
             self.verificationErrors.append(f"choose_team() failed: {e}")
 

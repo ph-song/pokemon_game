@@ -122,52 +122,19 @@ class PokeTeam:
         for i in range(squir):
             value = Squirtle()
             key = self.get_criterion_val(value)
-            self.team.add(ListItem(value, -key))
+            self.team.add(ListItem(value, key))
         for i in range(bulb):
             value = Bulbasaur()
             key = self.get_criterion_val(value)
-            self.team.add(ListItem(value, -key))
+            self.team.add(ListItem(value, key))
         for i in range(charm):
             value = Charmander()
             key = self.get_criterion_val(value)
-            self.team.add(ListItem(value, -key))
+            self.team.add(ListItem(value, key))
+
+
         if bool(myst):
             value = MissingNo()
             key = float('inf')
             self.team.add(ListItem(value, -key))
             
-"""
-a = PokeTeam("haha")
-
-a.choose_team(2, "speed")
-
-a.get_trainer_name()
-
-#a.populate_stack(1,1,1,1)
-print(a)
-
-
-a = PokeTeam('raidi1')
-a.choose_team(0,None)
-print(a)
-
-
-a = PokeTeam('raidi1')
-a.set_criterion('hp')
-a.populate_sorted_list(2,2,1)
-print(a)
-# B B S C C
-
-b = PokeTeam('raidi2') 
-b.set_criterion('level')
-b.populate_sorted_list(0,2,1)
-print(b)
-#S B B
-
-a = PokeTeam('asd')
-a.populate_stack(1,0,0)
-a.team.push(Squirtle())
-print(a)
-a.team.pop()
-print(a)
-"""

@@ -26,7 +26,7 @@ class ArraySortedList(SortedList[T]):
     
     def __str__(self):
         ret = ""
-        for i in range(len(self)):
+        for i in range(len(self)-1, -1, -1):
             ret += str(self.array[i].value) + ", "
         return ret[:-2] #remove excess ", "
 
@@ -120,7 +120,6 @@ class ArraySortedList(SortedList[T]):
         """ Find the position where the new item should be placed. """
         low = 0
         high = len(self) - 1
-
         while low <= high:
             mid = low + (high - low) // 2
             if self[mid].key < item.key:
@@ -128,6 +127,9 @@ class ArraySortedList(SortedList[T]):
             elif self[mid].key > item.key:
                 high = mid - 1
             else:
-                return mid
+                if mid >= len(self)-1 or self[mid+1].key != item.key:
+                    return mid+1
+                else:
+                    low = mid +1
 
         return low

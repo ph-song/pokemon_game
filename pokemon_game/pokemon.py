@@ -114,7 +114,7 @@ class Squirtle(PokemonBase):
         return self.SPEED
 
 
-class GlitchMon(PokemonBase): #is ABC nessesary
+class GlitchMon(PokemonBase):
     POKE_TYPE = None
 
     def __init__(self, hp: int, name: str)-> None:
@@ -173,26 +173,3 @@ class MissingNo(GlitchMon):
         sum = Charmander.SPEED + self.get_level() + Bulbasaur.SPEED + self.get_level()//2 + Squirtle.SPEED
         return sum/3 + self.get_level() -1
 
-
-"""
-m = MissingNo()
-
-
-
-print(m.get_hp(), m.get_level(), m.get_type(), m.get_name())
-c =Charmander()
-
-print('before fight\n', m.get_attack(), m.get_defence(), m.get_speed(), m.get_hp())
-
-m.attacked_by(c)
-print('after fight\n', m.get_attack(), m.get_defence(), m.get_speed(), m.get_hp())
-
-m = MissingNo()
-print('before level up\n', m.get_attack(), m.get_defence(), m.get_speed())
-
-m.set_level(m.get_level() +1 )
-print('after level up\n', m.get_attack(), m.get_defence(), m.get_speed())
-
-m.set_level(m.get_level() +1 )
-print('after level up\n', m.get_attack(), m.get_defence(), m.get_speed())
-"""

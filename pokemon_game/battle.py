@@ -10,7 +10,7 @@ class Battle:
     def __init__(self, trainer_one_name: str, trainer_two_name: str)->None :
         self.player1 = PokeTeam(trainer_one_name)
         self.player2 = PokeTeam(trainer_two_name)
-        self.battle_mode = None ###
+        self.battle_mode = None 
 
     def fight(self, poke1: Type[PokemonBase], poke2: Type[PokemonBase]):
         """2 pokemon fight"""
@@ -101,26 +101,27 @@ class Battle:
 
         return self.result() #return result
     
-
     #task 5
     def optimised_mode_battle(self, criterion_team1: str, criterion_team2: str) ->str:
         """fight in battle mode 2, optimised mode"""
         self.player1.choose_team(2, criterion_team1)
         self.player2.choose_team(2, criterion_team2)
-        #i =1
+
+        
         while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
-            poke1 = (self.player1.team.delete_at_index(0)).value
-            poke2 = (self.player2.team.delete_at_index(0)).value
+            
+            poke1 = (self.player1.team.delete_at_index(len(self.player1.team)-1)).value
+            poke2 = (self.player2.team.delete_at_index(len(self.player2.team)-1)).value
 
             self.fight(poke1, poke2) #pokemon fight with each other
 
             #append not fainted pokemon back to queue
             if not poke1.is_fainted():
                 key = self.player1.get_criterion_val(poke1)
-                self.player1.team.add(ListItem(poke1, -key))
+                self.player1.team.add(ListItem(poke1, key))
             if not poke2.is_fainted():
-                key = self.player1.get_criterion_val(poke2)
-                self.player2.team.add(ListItem(poke2, -key)) 
+                key = self.player2.get_criterion_val(poke2)
+                self.player2.team.add(ListItem(poke2, key)) 
 
         return self.result()
 
@@ -137,25 +138,3 @@ class Battle:
             return self.player2.get_trainer_name()
         elif p2_is_defeated:
             return self.player1.get_trainer_name()
-    
-"""
-a = Battle('Han Guang', 'Wing Sze')
-print(a.set_mode_battle())
-print(a.player2)
-
-
-b = Battle("Brock", "Gary")
-print(b.rotating_mode_battle())
-#2 2 1 #0 2 1 #'Brock' 
-
-
-c = Battle("haha", 'hehe')
-
-print(c.optimised_mode_battle('hp', 'level'))
-print(c.player1.team)
-"""
-
-
-
-#2 2 1 #0 2 1 
-

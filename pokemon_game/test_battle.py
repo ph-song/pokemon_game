@@ -13,7 +13,7 @@ class TestBattle(TesterBase):
             b.player2.choose_team(0)
             p1 = b.player1.team.pop()
             p2 = b.player2.team.pop()
-        pass
+            b.fight(p1,p2)
 
 
     def test_set_mode_battle(self):
