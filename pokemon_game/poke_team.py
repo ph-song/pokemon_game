@@ -14,21 +14,22 @@ from stack_adt import ArrayStack
 from pokemon_base import PokemonBase
 from typing import Type, Union
 
+
 class PokeTeam: 
     POKEMON_LIMIT = 6
     INITIAL_BATTLE_MODE = 0
 
-    def __init__(self, trainer_name:str) -> None:
+    def __init__(self, trainer_name: str) -> None:
         """ PokeTeam constructor
 
         :complexity: O(1), worst case = best case
         """
-        self.battle_mode = self.INITIAL_BATTLE_MODE
+        self.battle_mode = PokeTeam.INITIAL_BATTLE_MODE
         self.trainer_name = trainer_name
         self.team = None 
         self.criterion = None
   
-    def __str__(self) ->str:
+    def __str__(self) -> str:
         """ PokeTeam string method
 
         :complexity: O(n), where n = number of elements in team
@@ -36,21 +37,21 @@ class PokeTeam:
         """
         return str(self.team)
 
-    def get_trainer_name(self) ->str:
+    def get_trainer_name(self) -> str:
         """return team's trainer_name
 
         :complexity: O(1), best worst case = best case
         """
         return self.trainer_name
 
-    def get_battle_mode(self) ->int:
+    def get_battle_mode(self) -> int:
         """return team's battle_mode
 
         :complexity: O(1), worst case = best case
         """
         return self.battle_mode
     
-    def set_battle_mode(self, battle_mode:int) ->None:
+    def set_battle_mode(self, battle_mode: int) -> None:
         """set team battle_mode
 
         :raise ValueError: if battle_mode not in range(3)
@@ -62,7 +63,7 @@ class PokeTeam:
 
         self.battle_mode = battle_mode
     
-    def set_criterion(self, criterion:str) ->None:
+    def set_criterion(self, criterion: str) -> None:
         """set team criterion
 
         :raise ValueError: if criterion is invalid
@@ -73,14 +74,14 @@ class PokeTeam:
             raise ValueError("invalid criterion")
         self.criterion = criterion
     
-    def get_criterion(self) ->str:
+    def get_criterion(self) -> str:
         """return team's criterion
 
         :complexity: O(1), worst case = best case
         """
         return self.criterion
     
-    def get_criterion_val(self, poke:Type[PokemonBase]) -> Union[str, int, float]:
+    def get_criterion_val(self, poke: Type[PokemonBase]) -> Union[str, int, float]:
         """return pokemon's criterion value
 
         :param arg1: pokemon to get its criterion value
@@ -96,7 +97,7 @@ class PokeTeam:
         criterion = (self.get_criterion()).lower()
         return criterion_table[criterion]
     
-    def choose_team(self, battle_mode:int, criterion:str = None)-> None:
+    def choose_team(self, battle_mode: int, criterion: str = None) -> None:
         """take input from user to set up team
 
         :param arg1: team battle mode
@@ -106,11 +107,11 @@ class PokeTeam:
         :complexity: best O(N*n) if assign_team() best case happened,
                      worst O(N*n^2) if assign_team() best case happened,
                      where  N = number of user incorrect input + 1
-                            n = sum(charm, bulb, suqir, myst)
+                            n = sum(charm, bulb, squir, myst)
         """
         
-        self.set_battle_mode(battle_mode) #set battle mode
-        self.set_criterion(criterion) # sets the criterion 
+        self.set_battle_mode(battle_mode) #sets battle mode
+        self.set_criterion(criterion) #sets the criterion
 
         #ask input from user 
         prompt = "Howdy Trainer! Choose your team as C B S M\nwhere \tC is the number of Charmanders \n\tB is the number of Bulbasaurs \n\tS is the number of Squirtles\n\tM is the number of Mystery Pokemon\n>"
@@ -123,7 +124,7 @@ class PokeTeam:
 
                 #check MissingNo
                 myst = 0
-                if len(user_input) >=6:
+                if len(user_input) >= 6:
                     myst = int(user_input[6])
                     
                 self.assign_team(charm, bulb, squir, myst) #popoulate team
@@ -132,7 +133,7 @@ class PokeTeam:
             else:
                 valid_input = True
 
-    def assign_team(self, charm:int, bulb:int, squir:int, myst:int=0) -> None:
+    def assign_team(self, charm: int, bulb: int, squir: int, myst: int = 0) -> None:
         """ populate team based on battle_mode
 
         :param arg1: number of Charmander
@@ -142,12 +143,12 @@ class PokeTeam:
         :complexity: best O(n) if mode_battle == 0 or 1,
                      worst O(n^2) if mode_battle == 2
                      and populate_sorted_list() worst case happened
-                     where  n = sum(charm, bulb, suqir, myst)
+                     where  n = sum(charm, bulb, squir, myst)
         """
         pokemon_num = charm + bulb + squir + myst # total number of pokemons
 
         #check pokemon number validity 
-        if pokemon_num > self.POKEMON_LIMIT or myst > 1:
+        if pokemon_num > PokeTeam.POKEMON_LIMIT or myst > 1:
             raise ValueError("invalid pokemon number")
         
         #when battle_mode == 0 
@@ -162,17 +163,17 @@ class PokeTeam:
         elif self.get_battle_mode() == 2:
             self.populate_sorted_list(charm, bulb, squir, myst)
             
-    def populate_stack(self, charm:int, bulb:int, squir:int, myst:int=0) ->None:
+    def populate_stack(self, charm: int, bulb: int, squir: int, myst: int = 0) -> None:
         """ populate team with Stack
 
         :param arg1: number of Charmander
         :param arg2: number of Bulbasaur
         :param arg3: number of Squirtle 
-        :param arg4: number of MissingNo
-        :complexity: O(n), best case = worse case
+        :param arg4: number of MissingNozs
+        :complexity: O(n), best case = worst case
                      where n = sum(charm, squir, bulb, myst)
         """
-        self.team = ArrayStack(self.POKEMON_LIMIT) #instantiate ArrayStack
+        self.team = ArrayStack(PokeTeam.POKEMON_LIMIT) #instantiate ArrayStack
 
         #populate stack with pokemons
         #MissingNp
@@ -188,18 +189,18 @@ class PokeTeam:
         for i in range(charm):
             self.team.push(Charmander())
         
-    def populate_queue(self, charm:int, bulb:int, squir:int, myst:int=0) ->None:
+    def populate_queue(self, charm: int, bulb: int, squir: int, myst: int = 0) -> None:
         """ populate team with CircularQueue
 
         :param arg1: number of Charmander
         :param arg2: number of Bulbasaur
         :param arg3: number of Squirtle 
         :param arg4: number of MissingNo
-        :complexity: O(n), best case = worse case
+        :complexity: O(n), best case = worst casezs
                      where n = sum(charm, squir, bulb, myst)
                      
         """
-        self.team = CircularQueue(self.POKEMON_LIMIT) #instantiate CircularQueue
+        self.team = CircularQueue(PokeTeam.POKEMON_LIMIT) #instantiate CircularQueue
 
         #populate CircularQueue withh pokemons
         #Charmander
@@ -215,8 +216,7 @@ class PokeTeam:
         if bool(myst):
             self.team.append(MissingNo())
 
-
-    def populate_sorted_list(self, charm:int, bulb:int, squir:int, myst:int = 0) ->None:
+    def populate_sorted_list(self, charm: int, bulb: int, squir: int, myst: int = 0) -> None:
         """ populate team with SortedArrayList
 
         :param arg1: number of Charmander
@@ -227,7 +227,7 @@ class PokeTeam:
                      worst O(n^2), if index to add is always at 0
                      where  n = sum(charm, squir, bulb, myst),
         """
-        self.team = ArraySortedList(self.POKEMON_LIMIT) #instantiate ArraySortedList
+        self.team = ArraySortedList(PokeTeam.POKEMON_LIMIT) #instantiate ArraySortedList
 
         #populate ArraySortedList with pokemons
         #Squirtle

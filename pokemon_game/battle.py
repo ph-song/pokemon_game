@@ -12,14 +12,19 @@ from array_sorted_list import ArraySortedList
 from sorted_list import ListItem
 from pokemon import MissingNo
 
+
 class Battle:
 
-    def __init__(self, trainer_one_name: str, trainer_two_name:str)->None :
+    def __init__(self, trainer_one_name: str, trainer_two_name: str) -> None:
+        """Battle constructor
+
+        :complexity: O(1), worst case = best case
+        """
         self.player1 = PokeTeam(trainer_one_name)
         self.player2 = PokeTeam(trainer_two_name)
         self.battle_mode = None 
 
-    def fight(self, poke1:Type[PokemonBase], poke2:Type[PokemonBase]) ->None:
+    def fight(self, poke1: Type[PokemonBase], poke2: Type[PokemonBase]) -> None:
         """2 pokemon fight with each other
         
         :complexity: O(1), worst case = best case
@@ -45,8 +50,8 @@ class Battle:
         
         #lose one hp if both are still not fainted
         if not poke1.is_fainted() and not poke2.is_fainted():
-            poke1.set_hp(poke1.get_hp()-1)
-            poke2.set_hp(poke2.get_hp()-1)
+            poke1.set_hp(poke1.get_hp() - 1)
+            poke2.set_hp(poke2.get_hp() - 1)
 
         #return if both fainted
         if poke1.is_fainted() and poke2.is_fainted():
@@ -54,12 +59,12 @@ class Battle:
 
         #not fainted pokemon level up if another pokemon fainted
         elif poke1.is_fainted():
-            poke2.set_level(poke2.get_level() +1)
+            poke2.set_level(poke2.get_level() + 1)
         elif poke2.is_fainted():
-            poke1.set_level(poke1.get_level() +1)
+            poke1.set_level(poke1.get_level() + 1)
 
     #task 3
-    def set_mode_battle(self)-> str:
+    def set_mode_battle(self) -> str:
         """battle in basic mode
         
         :pre: both team array are not empty
@@ -127,7 +132,7 @@ class Battle:
         return self.result() #return result
     
     #task 5
-    def optimised_mode_battle(self, criterion_team1: str, criterion_team2: str) ->str:
+    def optimised_mode_battle(self, criterion_team1: str, criterion_team2: str) -> str:
         """battle in optimised mode
 
         :pre: both team array is not empty
@@ -143,8 +148,8 @@ class Battle:
         #battle
         while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
             #remove last pokemon in team
-            poke1 = (self.player1.team.delete_at_index(len(self.player1.team)-1)).value
-            poke2 = (self.player2.team.delete_at_index(len(self.player2.team)-1)).value
+            poke1 = (self.player1.team.delete_at_index(len(self.player1.team) - 1)).value
+            poke2 = (self.player2.team.delete_at_index(len(self.player2.team) - 1)).value
 
             self.fight(poke1, poke2) #pokemon fight with each other
 
@@ -158,7 +163,7 @@ class Battle:
 
         return self.result() #return result
 
-    def result(self)-> str:
+    def result(self) -> str:
         """return trainer_name of won team
         
         :complexity: O(1), worst case = best case

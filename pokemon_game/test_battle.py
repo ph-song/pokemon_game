@@ -1,20 +1,25 @@
 import unittest
 from tester_base import TesterBase, captured_output
 from battle import Battle
-from array_sorted_list import ArraySortedList
-from stack_adt import ArrayStack
-from queue_adt import CircularQueue
+
 
 class TestBattle(TesterBase):
-    def test_fight(self):
-        b = Battle("player1", "player2")
-        with captured_output("0 1 1\n1 1 1") as (inp, out, err):
-            b.player1.choose_team(0)
-            b.player2.choose_team(0)
-            p1 = b.player1.team.pop()
-            p2 = b.player2.team.pop()
-            b.fight(p1,p2)
 
+    def test_fight(self):
+        try:
+            b = Battle("player1", "player2")
+            with captured_output("0 1 1\n1 1 1") as (inp, out, err):
+                b.player1.choose_team(0)
+                b.player2.choose_team(0)
+                p1 = b.player1.team.pop()
+                p2 = b.player2.team.pop()
+                b.fight(p1,p2)
+            if str(p1) != "Bulbasaur's HP = -5 and level = 1":
+                self.verificationErrors.append(f"fight() logic error, incorrect p1 value: {p1}")
+            if str(p2) != "Charmander's HP = 7 and level = 2":
+                self.verificationErrors.append(f"fight() logic error, incorrect p2 value: {p2}")
+        except Exception as e:
+            self.verificationErrors.append(f"fight() failed: {e}")
 
     def test_set_mode_battle(self):
         try:

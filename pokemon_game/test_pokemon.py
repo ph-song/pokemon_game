@@ -13,7 +13,7 @@ class TestPokemon(TesterBase):
             c1.attacked_by(c2)
             result = str(c1)
             if result != "Charmander's HP = 0 and level = 1":
-                self.verificationErrors.append(f"Charmander attacked_by() Charmander logic error: {s}")
+                self.verificationErrors.append(f"Charmander attacked_by() Charmander logic error: {result}")
         except Exception as e:
             self.verificationErrors.append(f"Charmander attacked_by() Charmander failed {e}")
             return
@@ -24,7 +24,7 @@ class TestPokemon(TesterBase):
             c.attacked_by(s)
             result = str(c)
             if result != "Charmander's HP = -1 and level = 1":
-                self.verificationErrors.append(f"Charmander attacked_by() Squirtle logic error: {s}")
+                self.verificationErrors.append(f"Charmander attacked_by() Squirtle logic error: {result}")
         except Exception as e:
             self.verificationErrors.append(f"Charmander attacked_by() Squirtle failed {e}")
             return
