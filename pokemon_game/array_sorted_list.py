@@ -131,5 +131,4 @@ class ArraySortedList(SortedList[T]):
                     return mid+1
                 else:
                     low = mid +1
-
         return low

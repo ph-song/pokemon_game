@@ -8,7 +8,6 @@ __author__ = "FIT1008 T03G06"
 from abc import ABC, abstractmethod
 from typing import Type, Union
 
-
 class PokemonBase(ABC):
     INITIAL_LEVEL = 1
     TYPE_EFFECTIVENESS = {
@@ -24,7 +23,7 @@ class PokemonBase(ABC):
         :pre: hp >= 0
         :complexity: O(1), worst case = best case
         """
-        # Check validity of hp
+        # Check hp validity
         if hp < 0:
             raise ValueError("HP can't be negative")
     
@@ -115,7 +114,7 @@ class PokemonBase(ABC):
         pass
 
     @abstractmethod
-    def has_attacked(self) -> bool:
+    def has_fought(self) -> bool:
         """return ture if the Bulbasaur has battled at least one round else false"""
         pass
 

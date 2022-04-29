@@ -96,7 +96,7 @@ class PokeTeam:
         }
         criterion = (self.get_criterion()).lower()
         return criterion_table[criterion]
-    
+
     def choose_team(self, battle_mode: int, criterion: str = None) -> None:
         """take input from user to set up team
 
@@ -109,6 +109,9 @@ class PokeTeam:
                      where  N = number of user incorrect input + 1
                             n = sum(charm, bulb, squir, myst)
         """
+        crit_lst = ['hp', 'lvl', 'defence', 'attack', 'speed', None]
+        if criterion not in crit_lst:
+            raise Exception('invalid criterion')
         
         self.set_battle_mode(battle_mode) #sets battle mode
         self.set_criterion(criterion) #sets the criterion
@@ -196,9 +199,8 @@ class PokeTeam:
         :param arg2: number of Bulbasaur
         :param arg3: number of Squirtle 
         :param arg4: number of MissingNo
-        :complexity: O(n), best case = worst casezs
+        :complexity: O(n), best case = worst cases
                      where n = sum(charm, squir, bulb, myst)
-                     
         """
         self.team = CircularQueue(PokeTeam.POKEMON_LIMIT) #instantiate CircularQueue
 
@@ -248,6 +250,6 @@ class PokeTeam:
         #MissingNo
         if bool(myst):
             value = MissingNo()
-            key = float('inf')
-            self.team.add(ListItem(value, -key))
+            key = self.get_crit_val(value)
+            self.team.add(ListItem(value, key))
     

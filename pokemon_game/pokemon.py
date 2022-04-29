@@ -8,8 +8,6 @@ __author__ = "FIT1008 T03G06"
 from pokemon_base import PokemonBase
 from typing import Type 
 from random import randint
-from abc import abstractmethod
-
 
 class Charmander(PokemonBase):
 
@@ -64,8 +62,8 @@ class Charmander(PokemonBase):
         """
         return Charmander.SPEED + self.get_level()
     
-    def has_attacked(self) -> bool:
-        """return ture if the Bulbasaur has battled at least one round else false"""
+    def has_fought(self) -> bool:
+        """return ture if the Charmander has battled at least one round else false"""
         return self.get_hp() != Charmander.HP or self.get_level != 1
 
 
@@ -122,7 +120,7 @@ class Bulbasaur(PokemonBase):
         """
         return Bulbasaur.SPEED + self.get_level()//2
 
-    def has_attacked(self) -> bool:
+    def has_fought(self) -> bool:
         """return ture if the Bulbasaur has battled at least one round else false"""
         return self.get_hp() != Bulbasaur.HP or self.get_level != 1
 
@@ -180,8 +178,8 @@ class Squirtle(PokemonBase):
         """
         return Squirtle.SPEED
 
-    def has_attacked(self) -> bool:
-        """return ture if the MissingNo has battled at least one round else false"""
+    def has_fought(self) -> bool:
+        """return ture if the Squirtle has battled at least one round else false"""
         return self.get_hp() != Squirtle.HP or self.get_level != 1
 
 
@@ -197,7 +195,7 @@ class GlitchMon(PokemonBase):
         self.name = name
 
     def attacked_by(self, attacker: Type[PokemonBase]) -> None:
-        """GlitchMon attacked by pokemon and lose hp   #*** added comment
+        """GlitchMon attacked by pokemon and lose hp  
 
         :param arg1: the attacker
         :complexity: O(1), best case = worst case
@@ -206,7 +204,7 @@ class GlitchMon(PokemonBase):
             self.super_power()
         self.set_hp(self.get_hp() - attacker.get_attack())
 
-    def super_power(self):
+    def super_power(self) ->None:
         """GlitchMon superpower, increases GlitchMon hp or level or both by one
 
         :complexity: O(1), worst case = best case
@@ -223,15 +221,15 @@ class GlitchMon(PokemonBase):
 
 class MissingNo(GlitchMon):
     HP = (Charmander.HP + Bulbasaur.HP + Squirtle.HP)/3
-    MYST_NAME = "MissingNo"
+    NAME = "MissingNo"
 
     def __init__(self) -> None:
-        """MissingNo constuctor    #*** added comment
+        """MissingNo constuctor   
 
         :complexity: O(1), best case = worst case
         """
         # calling parent class GlitchMon constructor
-        GlitchMon.__init__(self, MissingNo.HP, MissingNo.MYST_NAME)
+        GlitchMon.__init__(self, MissingNo.HP, MissingNo.NAME)
 
     def get_attack(self) -> int:
         """return MissingNo attack
@@ -257,6 +255,9 @@ class MissingNo(GlitchMon):
         sum = Charmander.SPEED + self.get_level() + Bulbasaur.SPEED + self.get_level()//2 + Squirtle.SPEED
         return sum/3 + self.get_level() - 1
 
-    def has_attacked(self) -> bool:
-        """return ture if the MissingNo has battled at least one round else false"""
+    def has_fought(self) -> bool:
+        """return ture if the MissingNo has battled at least one round else false
+        
+        :complexity: O(1)
+        """
         return self.get_hp() != MissingNo.HP or self.get_level != 1

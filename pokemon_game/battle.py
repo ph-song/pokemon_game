@@ -23,7 +23,7 @@ class Battle:
         self.team1 = PokeTeam(trainer_one_name)
         self.team2 = PokeTeam(trainer_two_name)
         self.battle_mode = None 
-
+ 
     def fight(self, poke1: Type[PokemonBase], poke2: Type[PokemonBase]) -> None:
         """2 pokemon fight with each other
         
@@ -127,8 +127,16 @@ class Battle:
 
         :pre: both team array is not empty
         :post: one of the team array is empty
-        :complexity:
+        :raise exception: if criterion is invalid 
+        :complexity: best O(logn), MissingNo is always at index 0
+                     worst , O(m*n*logn), MissingNo is always at index len(self.team)-1
+                     n = number pokemons of in losing team
+                     m = battle round
         """
+        crit_lst = ['hp', 'lvl', 'defence', 'attack', 'speed']
+        if criterion_team1 not in crit_lst or criterion_team2 not in crit_lst:
+            raise Exception('invalid criterion')
+
         self.team1.choose_team(2, criterion_team1)
         self.team2.choose_team(2, criterion_team2)
 
@@ -138,22 +146,27 @@ class Battle:
             #remove last pokemon in team
             poke1 = (self.team1.team.delete_at_index(len(self.team1.team) - 1)).value
             poke2 = (self.team2.team.delete_at_index(len(self.team2.team) - 1)).value
-            
+
             #check MissingNo
-            #if hte pokemon is MissingNo and not all pokemon have fought at least once
-            if type(poke1) is MissingNo and not all([i.has_battle() for i in self.team1.team]):
+            #if not all pokemon have fought at least once
+            cond1 = not all([(self.team1.team[i]).value.has_fought() for i in range(len(self.team1.team))])
+            #the pokemon is MissingNo and
+            if type(poke1) is MissingNo and cond1: 
                 #summon another pokemon and add MissingNo back to team
                 temp = poke1
                 poke1 = (self.team1.team.delete_at_index(len(self.team1.team) - 1)).value
                 key = self.team1.get_crit_val(temp)
                 self.team1.team.add(ListItem(temp, key))
-            if type(poke2) is MissingNo and not all([i.has_battle() for i in self.team2.team]):
+
+            cond2 = not all([(self.team2.team[i]).value.has_fought() for i in range(len(self.team2.team))])
+            if type(poke2) is MissingNo and cond2:
                 temp = poke2
                 poke2 = (self.team2.team.delete_at_index(len(self.team2.team) - 1)).value
                 key = self.team2.get_crit_val(temp)
                 self.team1.team.add(ListItem(temp, key))
            
-            self.fight(poke1, poke2) #pokemon fight with each other
+            #pokemon fight with each other
+            self.fight(poke1, poke2)
 
             #add not fainted pokemon back to sorted list
             if not poke1.is_fainted():
@@ -181,3 +194,4 @@ class Battle:
             return self.team2.get_trainer_name()
         elif p2_is_defeated:
             return self.team1.get_trainer_name()
+
