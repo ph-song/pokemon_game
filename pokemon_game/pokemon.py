@@ -63,6 +63,10 @@ class Charmander(PokemonBase):
         :complexity: O(1), worst case = best case
         """
         return Charmander.SPEED + self.get_level()
+    
+    def has_attacked(self) -> bool:
+        """return ture if the Bulbasaur has battled at least one round else false"""
+        return self.get_hp() != Charmander.HP or self.get_level != 1
 
 
 class Bulbasaur(PokemonBase):
@@ -118,6 +122,9 @@ class Bulbasaur(PokemonBase):
         """
         return Bulbasaur.SPEED + self.get_level()//2
 
+    def has_attacked(self) -> bool:
+        """return ture if the Bulbasaur has battled at least one round else false"""
+        return self.get_hp() != Bulbasaur.HP or self.get_level != 1
 
 class Squirtle(PokemonBase):
 
@@ -172,6 +179,10 @@ class Squirtle(PokemonBase):
         :complexity: O(1), best case = worst case
         """
         return Squirtle.SPEED
+
+    def has_attacked(self) -> bool:
+        """return ture if the MissingNo has battled at least one round else false"""
+        return self.get_hp() != Squirtle.HP or self.get_level != 1
 
 
 class GlitchMon(PokemonBase):
@@ -245,3 +256,7 @@ class MissingNo(GlitchMon):
         """
         sum = Charmander.SPEED + self.get_level() + Bulbasaur.SPEED + self.get_level()//2 + Squirtle.SPEED
         return sum/3 + self.get_level() - 1
+
+    def has_attacked(self) -> bool:
+        """return ture if the MissingNo has battled at least one round else false"""
+        return self.get_hp() != MissingNo.HP or self.get_level != 1

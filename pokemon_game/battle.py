@@ -20,8 +20,8 @@ class Battle:
 
         :complexity: O(1), worst case = best case
         """
-        self.player1 = PokeTeam(trainer_one_name)
-        self.player2 = PokeTeam(trainer_two_name)
+        self.team1 = PokeTeam(trainer_one_name)
+        self.team2 = PokeTeam(trainer_two_name)
         self.battle_mode = None 
 
     def fight(self, poke1: Type[PokemonBase], poke2: Type[PokemonBase]) -> None:
@@ -69,27 +69,26 @@ class Battle:
         
         :pre: both team array are not empty
         :post: one of the team array is empty
-        :complexity: best O(n) if one pokemon defeated another team all pokemon
-                     worst O(n^2), if each pokemon fight at least 2 round
-                     where n = len(defeated pokemon team)
+        :complexity: O(n),worst case = best case
+                     where n = battle round
         """
         #choose team
-        self.player1.choose_team(0)
-        self.player2.choose_team(0)
+        self.team1.choose_team(0)
+        self.team2.choose_team(0)
     
         #batle
-        while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
+        while not (self.team1.team.is_empty() or self.team2.team.is_empty()):
             #pop pokemon from stack
-            poke1 = self.player1.team.pop()        
-            poke2 = self.player2.team.pop()
+            poke1 = self.team1.team.pop()        
+            poke2 = self.team2.team.pop()
 
             self.fight(poke1, poke2) # two pokemons fight
             
             #push not fainted pokemon back to stack
             if not poke1.is_fainted(): 
-                self.player1.team.push(poke1)
+                self.team1.team.push(poke1)
             if not poke2.is_fainted():
-                self.player2.team.push(poke2)
+                self.team2.team.push(poke2)
         
         return self.result() #return result
 
@@ -99,35 +98,26 @@ class Battle:
         
         :pre: both team array are not empty
         :post: one of the team array is empty
-        :complexity: best O(n) if one pokemon defeated another team all pokemon
-                     worst O(n^2), if each pokemons fought 2 rounds
-                     where n = len(defeated pokemon team)
+        :complexity: O(n),worst case = best case
+                     where n = battle round
         """
         #choose team
-        self.player1.choose_team(1)
-        self.player2.choose_team(1)
+        self.team1.choose_team(1)
+        self.team2.choose_team(1)
 
         #battle
-        while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
+        while not (self.team1.team.is_empty() or self.team2.team.is_empty()):
             #serve pokemon from queue
-            poke1 = self.player1.team.serve()
-            poke2 = self.player2.team.serve()
-
-            #check if it's MissingNo
-            if type(poke1) is MissingNo and not self.player1.team.is_empty():
-                self.player1.team.append(poke1)
-                poke1 = self.player1.team.serve()
-            if type(poke2) is MissingNo and not self.player2.team.is_empty():
-                self.player1.team.append(poke2)
-                poke2 = self.player2.team.serve()
+            poke1 = self.team1.team.serve()
+            poke2 = self.team2.team.serve()
 
             self.fight(poke1, poke2) #pokemon fight with each other
 
             #append not fainted pokemon back to queue
             if not poke1.is_fainted():
-                self.player1.team.append(poke1)
+                self.team1.team.append(poke1)
             if not poke2.is_fainted():
-                self.player2.team.append(poke2)
+                self.team2.team.append(poke2)
 
         return self.result() #return result
     
@@ -137,29 +127,41 @@ class Battle:
 
         :pre: both team array is not empty
         :post: one of the team array is empty
-        :complexity: best O(n) if one pokemon defeated another team all pokemons
-                     worst O(n^3) if all pokemons fought 2 rounds 
-                     and inserted at index 0 after 1 round
-                     where n = len(defeated pokemon team)
+        :complexity:
         """
-        self.player1.choose_team(2, criterion_team1)
-        self.player2.choose_team(2, criterion_team2)
+        self.team1.choose_team(2, criterion_team1)
+        self.team2.choose_team(2, criterion_team2)
 
         #battle
-        while not (self.player1.team.is_empty() or self.player2.team.is_empty()):
+        while not (self.team1.team.is_empty() or self.team2.team.is_empty()):
+            
             #remove last pokemon in team
-            poke1 = (self.player1.team.delete_at_index(len(self.player1.team) - 1)).value
-            poke2 = (self.player2.team.delete_at_index(len(self.player2.team) - 1)).value
-
+            poke1 = (self.team1.team.delete_at_index(len(self.team1.team) - 1)).value
+            poke2 = (self.team2.team.delete_at_index(len(self.team2.team) - 1)).value
+            
+            #check MissingNo
+            #if hte pokemon is MissingNo and not all pokemon have fought at least once
+            if type(poke1) is MissingNo and not all([i.has_battle() for i in self.team1.team]):
+                #summon another pokemon and add MissingNo back to team
+                temp = poke1
+                poke1 = (self.team1.team.delete_at_index(len(self.team1.team) - 1)).value
+                key = self.team1.get_crit_val(temp)
+                self.team1.team.add(ListItem(temp, key))
+            if type(poke2) is MissingNo and not all([i.has_battle() for i in self.team2.team]):
+                temp = poke2
+                poke2 = (self.team2.team.delete_at_index(len(self.team2.team) - 1)).value
+                key = self.team2.get_crit_val(temp)
+                self.team1.team.add(ListItem(temp, key))
+           
             self.fight(poke1, poke2) #pokemon fight with each other
 
             #add not fainted pokemon back to sorted list
             if not poke1.is_fainted():
-                key = self.player1.get_criterion_val(poke1)
-                self.player1.team.add(ListItem(poke1, key))
+                key = self.team1.get_crit_val(poke1)
+                self.team1.team.add(ListItem(poke1, key))
             if not poke2.is_fainted():
-                key = self.player2.get_criterion_val(poke2)
-                self.player2.team.add(ListItem(poke2, key)) 
+                key = self.team2.get_crit_val(poke2)
+                self.team2.team.add(ListItem(poke2, key)) 
 
         return self.result() #return result
 
@@ -168,14 +170,14 @@ class Battle:
         
         :complexity: O(1), worst case = best case
         """
-        #check if the player is defeated
-        p1_is_defeated = self.player1.team.is_empty()
-        p2_is_defeated = self.player2.team.is_empty()
+        #check if the team is defeated
+        p1_is_defeated = self.team1.team.is_empty()
+        p2_is_defeated = self.team2.team.is_empty()
 
         #return result
         if p1_is_defeated and p2_is_defeated:
             return "Draw"
         elif p1_is_defeated:
-            return self.player2.get_trainer_name()
+            return self.team2.get_trainer_name()
         elif p2_is_defeated:
-            return self.player1.get_trainer_name()
+            return self.team1.get_trainer_name()

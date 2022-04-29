@@ -2,8 +2,7 @@ import unittest
 
 from tester_base import TesterBase, captured_output
 
-
-class TestTask5(TesterBase):
+class TestTask4(TesterBase):
 
     def test_battle_example(self):
         from battle import Battle
@@ -15,7 +14,7 @@ class TestTask5(TesterBase):
             return
         try:
             with captured_output("2 2 1\n0 2 1") as (inp, out, err):
-                result = b.optimised_mode_battle("hp", "level")
+                result = b.optimised_mode_battle("hp", "lvl")
         except Exception as e:
             self.verificationErrors.append(f"Battle failed to execute: {str(e)}.")
             return
@@ -25,12 +24,10 @@ class TestTask5(TesterBase):
         except AssertionError:
             self.verificationErrors.append(f"Cynthia should win: {result}.")
         try:
-            assert str(b.player1) == "Bulbasaur's HP = 6 and level = 1, Bulbasaur's HP = 5.0 and level = 2, Squirtle's HP = 2 and level = 1"
+            assert str(b.team1) == "Bulbasaur's HP = 6 and level = 1, Bulbasaur's HP = 5 and level = 2, Squirtle's HP = 2 and level = 1"
         except AssertionError:
-            self.verificationErrors.append(f"Player 1 is not correct after battle: {str(b.player1)}")
-
-    ### ADD TESTS HERE
+            self.verificationErrors.append(f"Team 1 is not correct after battle: {str(b.team1)}")
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestTask5)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestTask4)
     unittest.TextTestRunner(verbosity=0).run(suite)

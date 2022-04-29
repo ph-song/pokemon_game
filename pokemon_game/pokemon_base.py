@@ -37,7 +37,7 @@ class PokemonBase(ABC):
 
         :complexity: O(1), worst case = best case
         """
-        return f"{self.get_name()}'s HP = {self.get_hp()} and level = {self.get_level()}"
+        return f"{self.get_name()}'s HP = {int(self.get_hp())} and level = {self.get_level()}"
 
     def get_type(self) -> str:
         """ return pokemon poke_type
@@ -112,6 +112,11 @@ class PokemonBase(ABC):
 
         :param arg1: the attacker
         """
+        pass
+
+    @abstractmethod
+    def has_attacked(self) -> bool:
+        """return ture if the Bulbasaur has battled at least one round else false"""
         pass
 
     def damage_multiplier(self, defender: "PokemonBase") -> Union[int, float]:

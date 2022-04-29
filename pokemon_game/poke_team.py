@@ -70,7 +70,7 @@ class PokeTeam:
         :complexity: O(1), worst case = best case
         """
         #check validity of criterion 
-        if criterion not in [None, 'hp', 'level', 'attack', 'defence', 'speed']:
+        if criterion not in [None, 'hp', 'lvl', 'attack', 'defence', 'speed']:
             raise ValueError("invalid criterion")
         self.criterion = criterion
     
@@ -81,7 +81,7 @@ class PokeTeam:
         """
         return self.criterion
     
-    def get_criterion_val(self, poke: Type[PokemonBase]) -> Union[str, int, float]:
+    def get_crit_val(self, poke: Type[PokemonBase]) -> Union[str, int, float]:
         """return pokemon's criterion value
 
         :param arg1: pokemon to get its criterion value
@@ -89,7 +89,7 @@ class PokeTeam:
         """
         criterion_table = {
             'hp': poke.get_hp(),
-            'level': poke.get_level(),
+            'lvl': poke.get_level(),
             'attack': poke.get_attack(),
             'defence': poke.get_defence(),
             'speed': poke.get_speed()
@@ -105,7 +105,7 @@ class PokeTeam:
         :pre: invalid user input
         :post: valid user input
         :complexity: best O(N*n) if assign_team() best case happened,
-                     worst O(N*n^2) if assign_team() best case happened,
+                     worst O(N*n^2) if assign_team() worst case happened,
                      where  N = number of user incorrect input + 1
                             n = sum(charm, bulb, squir, myst)
         """
@@ -114,7 +114,7 @@ class PokeTeam:
         self.set_criterion(criterion) #sets the criterion
 
         #ask input from user 
-        prompt = "Howdy Trainer! Choose your team as C B S M\nwhere \tC is the number of Charmanders \n\tB is the number of Bulbasaurs \n\tS is the number of Squirtles\n\tM is the number of Mystery Pokemon\n>"
+        prompt = "Howdy Trainer! Choose your team as C B S M\nwhere \tC is the number of Charmanders \n\tB is the number of Bulbasaurs \n\tS is the number of Squirtles\n\tM is the number of MissingNo\n>"
         valid_input = False
 
         while not valid_input: #exit while loop only if user gives valid input
@@ -140,8 +140,8 @@ class PokeTeam:
         :param arg2: number of Bulbasaur
         :param arg3: number of Squirtle 
         :param arg4: number of MissingNo
-        :complexity: best O(n) if mode_battle == 0 or 1,
-                     worst O(n^2) if mode_battle == 2
+        :complexity: best O(n), if mode_battle == 0 or 1
+                     worst O(n^2), if mode_battle == 2
                      and populate_sorted_list() worst case happened
                      where  n = sum(charm, bulb, squir, myst)
         """
@@ -180,13 +180,13 @@ class PokeTeam:
         if bool(myst):
             self.team.push(MissingNo())
         #Squirtle
-        for i in range(squir):
+        for _ in range(squir):
             self.team.push(Squirtle())
         #Bulbasaur
-        for i in range(bulb):
+        for _ in range(bulb):
             self.team.push(Bulbasaur())
         #Charmander
-        for i in range(charm):
+        for _ in range(charm):
             self.team.push(Charmander())
         
     def populate_queue(self, charm: int, bulb: int, squir: int, myst: int = 0) -> None:
@@ -204,13 +204,13 @@ class PokeTeam:
 
         #populate CircularQueue withh pokemons
         #Charmander
-        for i in range(charm):
+        for _ in range(charm):
             self.team.append(Charmander())
         #Bulbasaur
-        for i in range(bulb):
+        for _ in range(bulb):
             self.team.append(Bulbasaur())
         #Squirtle
-        for i in range(squir):
+        for _ in range(squir):
             self.team.append(Squirtle())
         #MisingNo
         if bool(myst):
@@ -225,25 +225,25 @@ class PokeTeam:
         :param arg4: number of MissingNo
         :complexity: best O(n), if index to add is always at the middle
                      worst O(n^2), if index to add is always at 0
-                     where  n = sum(charm, squir, bulb, myst),
+                     where  n = sum(charm, squir, bulb, myst)
         """
         self.team = ArraySortedList(PokeTeam.POKEMON_LIMIT) #instantiate ArraySortedList
 
         #populate ArraySortedList with pokemons
         #Squirtle
-        for i in range(squir):
+        for _ in range(squir):
             value = Squirtle()
-            key = self.get_criterion_val(value)
+            key = self.get_crit_val(value)
             self.team.add(ListItem(value, key))
         #Bulbasaur
-        for i in range(bulb):
+        for _ in range(bulb):
             value = Bulbasaur()
-            key = self.get_criterion_val(value)
+            key = self.get_crit_val(value)
             self.team.add(ListItem(value, key))
         #Charmander
-        for i in range(charm):
+        for _ in range(charm):
             value = Charmander()
-            key = self.get_criterion_val(value)
+            key = self.get_crit_val(value)
             self.team.add(ListItem(value, key))
         #MissingNo
         if bool(myst):

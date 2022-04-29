@@ -2,7 +2,6 @@ import unittest
 
 from tester_base import TesterBase, captured_output
 
-
 class TestTask4(TesterBase):
 
     def test_limit(self):
@@ -22,11 +21,9 @@ class TestTask4(TesterBase):
             return
         output = out.getvalue().strip()
         try:
-            assert str(team) == "Charmander's HP = 7 and level = 1, Bulbasaur's HP = 9 and level = 1, Squirtle's HP = 8 and level = 1, MissingNo's HP = 8.0 and level = 1"
+            assert str(team) == "Charmander's HP = 7 and level = 1, Bulbasaur's HP = 9 and level = 1, Squirtle's HP = 8 and level = 1, MissingNo's HP = 8 and level = 1"
         except AssertionError:
             self.verificationErrors.append(f"PokeTeam does not handle limit correctly. {str(team)}")
-
-    ### ADD TESTS HERE
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestTask4)
