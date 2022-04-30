@@ -134,7 +134,6 @@ class Battle:
                      index_to_add of pokemon is always 0 after each fight
                      where  n = pokemon number
                             m = number of battle round
-                    
         """
         crit_lst = ['hp', 'lvl', 'defence', 'attack', 'speed']
         if criterion_team1 not in crit_lst or criterion_team2 not in crit_lst:
@@ -169,13 +168,9 @@ class Battle:
                 #return MissingNo back to team
                 key = self.team2.get_crit_val(temp)
                 self.team2.team.add(ListItem(temp, key))
-            print("before", poke1,poke2)
             
-           
-            #pokemon fight with each other
-            self.fight(poke1, poke2)
-            print("after", poke1,poke2)
-
+            self.fight(poke1, poke2) #pokemon fight with each other
+ 
             #add not fainted pokemon back to sorted list
             if not poke1.is_fainted():
                 key = self.team1.get_crit_val(poke1)
@@ -189,6 +184,7 @@ class Battle:
     def result(self) -> str:
         """return trainer_name of won team
         
+        :raise Exception: if both teams are not empty
         :complexity: O(1), worst case = best case
         """
         #True if the team is defeated else False
@@ -198,7 +194,10 @@ class Battle:
         #return result
         if p1_is_defeated and p2_is_defeated: #draw if both team is defeated
             return "Draw"
+        elif not p1_is_defeated and not p2_is_defeated:
+            raise Exception("no team won")
         elif p1_is_defeated:
             return self.team2.get_trainer_name() #p2 win if p1 is defeated
         elif p2_is_defeated:
             return self.team1.get_trainer_name() #p1 win if p2 is defeated
+            

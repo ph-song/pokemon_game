@@ -85,8 +85,13 @@ class PokeTeam:
         """return pokemon's criterion value
 
         :param arg1: pokemon to get its criterion value
+        :raise ValueError: if criterion is invalid
         :complexity: O(1), worst case = best case
         """
+        criterion = (self.get_criterion()).lower()
+        if criterion not in [None, 'hp', 'lvl', 'attack', 'defence', 'speed']:
+            raise ValueError("invalid criterion")
+
         criterion_table = {
             'hp': poke.get_hp(),
             'lvl': poke.get_level(),
@@ -94,7 +99,7 @@ class PokeTeam:
             'defence': poke.get_defence(),
             'speed': poke.get_speed()
         }
-        criterion = (self.get_criterion()).lower()
+        
         return criterion_table[criterion]
 
     def choose_team(self, battle_mode: int, criterion: str = None) -> None:
@@ -104,8 +109,9 @@ class PokeTeam:
         :param arg2: team criterion 
         :pre: invalid user input
         :post: valid user input
-        :complexity: best O(N*n) if assign_team() best case happened,
-                     worst O(N*n^2) if assign_team() worst case happened,
+        :complexity: best O(N*n), if assign_team() best case happened,
+                     worst O(N*(char^2 + squir^2 + bulb^2)) 
+                     if worst case of assign_team() occured,
                      where  N = number of user incorrect input + 1
                             n = sum(charm, bulb, squir, myst)
         """
@@ -144,11 +150,10 @@ class PokeTeam:
         :param arg3: number of Squirtle 
         :param arg4: number of MissingNo
         :complexity: best O(n), if mode_battle == 0 or 1,
-                     where  n = sum(charm, bulb, squir, myst)
-                     worst O(char^2 + squir^2 + bulb^2), 
-                     if mode_battle == 2 and worst case of
-                     populate_sorted_list() happened
-                     
+                     worst O(c^2 + s^2 + b^2), 
+                     if mode_battle == 2 and worst case of populate_sorted_list() happened
+                     where n = sum(c, b, s, m)
+                           c =char, b = bulb, s = squir, m =myst
         """
         pokemon_num = charm + bulb + squir + myst # total number of pokemons
 
@@ -176,7 +181,8 @@ class PokeTeam:
         :param arg3: number of Squirtle 
         :param arg4: number of MissingNozs
         :complexity: O(n), best case = worst case
-                     where n = sum(charm, squir, bulb, myst)
+                     where n = sum(char, bulb, squir, myst)
+                     
         """
         self.team = ArrayStack(PokeTeam.POKEMON_LIMIT) #instantiate ArrayStack
 
@@ -193,14 +199,6 @@ class PokeTeam:
         #Charmander
         for _ in range(charm):
             self.team.push(Charmander())
-
-    def all_has_fought(self):
-        """return True if all pokemon has fought else False
-        
-        :complexity: O(n), best = worst,
-                     where n = len(self.team)
-        """
-        return all([(self.team[i]).has_fought() for i in range(len(self.team))])
         
     def populate_queue(self, charm: int, bulb: int, squir: int, myst: int = 0) -> None:
         """ populate team with CircularQueue
@@ -210,7 +208,7 @@ class PokeTeam:
         :param arg3: number of Squirtle 
         :param arg4: number of MissingNo
         :complexity: O(n), best case = worst cases
-                     where n = sum(charm, squir, bulb, myst)
+                     where n = sum(char, bulb, squir, myst)
         """
         self.team = CircularQueue(PokeTeam.POKEMON_LIMIT) #instantiate CircularQueue
 
@@ -235,9 +233,10 @@ class PokeTeam:
         :param arg2: number of Bulbasaur
         :param arg3: number of Squirtle 
         :param arg4: number of MissingNo
-        :complexity: best O(char*log char +bulb*log bulb+ squir*log squir),
+        :complexity: best O(c*log c +b*log b+ squir*log s),
                      if index to add is always at the middle
-                     worst O(char^2 + squir^2 + bulb^2), if index to add is always at 0
+                     worst O(c^2 + s^2 + b^2), if index to add is always at 0
+                     where c =char, b = bulb, s = squir, m =myst
         """
         self.team = ArraySortedList(PokeTeam.POKEMON_LIMIT) #instantiate ArraySortedList
 
