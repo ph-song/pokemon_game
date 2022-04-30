@@ -115,7 +115,7 @@ class PokemonBase(ABC):
 
     @abstractmethod
     def has_fought(self) -> bool:
-        """return ture if the Bulbasaur has battled at least one round else false"""
+        """return ture if pokemon has battled at least one round else false"""
         pass
 
     def damage_multiplier(self, defender: "PokemonBase") -> Union[int, float]:

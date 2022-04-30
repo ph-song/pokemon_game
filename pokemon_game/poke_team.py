@@ -158,7 +158,7 @@ class PokeTeam:
         pokemon_num = charm + bulb + squir + myst # total number of pokemons
 
         #check pokemon number validity 
-        if pokemon_num > PokeTeam.POKEMON_LIMIT or myst > 1:
+        if pokemon_num > PokeTeam.POKEMON_LIMIT or pokemon_num <=0 or myst > 1:
             raise ValueError("invalid pokemon number")
         
         #when battle_mode == 0 

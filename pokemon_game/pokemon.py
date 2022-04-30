@@ -209,7 +209,7 @@ class GlitchMon(PokemonBase):
 
         :complexity: O(1), worst case = best case
         """
-        i = randint(0, 2)
+        i = randint(0, 2) #randomly choose 1 out of 3
         if i == 0:
             self.set_hp(self.get_hp() + 1)
         elif i == 1:

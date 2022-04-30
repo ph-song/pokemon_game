@@ -200,4 +200,3 @@ class Battle:
             return self.team2.get_trainer_name() #p2 win if p1 is defeated
         elif p2_is_defeated:
             return self.team1.get_trainer_name() #p1 win if p2 is defeated
-            
