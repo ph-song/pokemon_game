@@ -6,8 +6,8 @@ from pokemon import Bulbasaur, Squirtle, Charmander, MissingNo
 
 class TestPokemonBase(TesterBase):
 
-    def test_pokemonbase_init(self): 
-        """test PokeBase constructor"""
+    def test_pokemonbase_constr_str(self): 
+        """test PokeBase constructor and __str__()"""
         try:
             b = Bulbasaur()
         except Exception as e:
@@ -15,18 +15,25 @@ class TestPokemonBase(TesterBase):
             return
         try:
             PokemonBase.__init__(b, 10, "Grass")
-            res = str(b)
-            res_poke_type = b.get_type()
-            if res != "Bulbasaur's HP = 10 and level = 1" or res_poke_type != "Grass":
-                self.verificationErrors.append(f"PokemonBase __init__() logic error: {res, res_poke_type}")
+            if b.hp != 10 or b.poke_type != "Grass":
+                self.verificationErrors.append(f"PokemonBase __init__() logic error: hp={b.hp}, poke_type={b.poke_type}")
         except Exception as e:
-            self.verificationErrors.append(f"PokemonBase __init__() failed {e}")
-            return
+            self.verificationErrors.append(f"PokemonBase __init__() failed: {str(e)}.")
+        try:
+            res = str(b)
+            if res != "Bulbasaur's HP = 10 and level = 1":
+                self.verificationErrors.append(f"PokemonBase __str__() logic error: {res, b.poke_type}")
+        except Exception as e:
+            self.verificationErrors.append(f"PokemonBase __str__() failed: {str(e)}.")
     
     def test_get_type(self):
         """test correctness of PokeBase get_type() method"""
         try:
-            result = PokemonBase.get_type(Charmander())
+            c = Charmander()
+        except Exception as e:
+            self.verificationErrors.append(f"Charmander could not be instantiated: {str(e)}.")
+        try:
+            result = PokemonBase.get_type(c)
             if result != "Fire":
                 self.verificationErrors.append(f"Charmander get_type() logic error: {result}")
         except Exception as e:
@@ -36,15 +43,19 @@ class TestPokemonBase(TesterBase):
     def test_get_name(self):
         """test correctness of PokeBase get_name()"""
         try:
-            result = PokemonBase.get_name(Bulbasaur())
-            if result != "Bulbasaur":
-                self.verificationErrors.append(f"Bulbasaur get_name() logic error: {result}")
+            b = Bulbasaur()
         except Exception as e:
-            self.verificationErrors.append(f"Bulbasaur get_name() failed {e}")
+            self.verificationErrors.append(f"Bulbasaur could not be instantiated: {str(e)}.")
             return
+        try:
+            result = PokemonBase.get_name(b)
+            if result != "Bulbasaur":
+                self.verificationErrors.append(f"PokeBase get_name() logic error: {result}")
+        except Exception as e:
+            self.verificationErrors.append(f"PokeBase get_name() failed {e}")
 
     def test_set_hp(self):
-        """test correctness of PokeBase set_hp())"""
+        """test correctness of PokemonBase set_hp())"""
         try:
             s = Squirtle()
         except Exception as e:
@@ -54,23 +65,23 @@ class TestPokemonBase(TesterBase):
             PokemonBase.set_hp(s, 12)
             result = str(s)
             if result != "Squirtle's HP = 12 and level = 1":
-                self.verificationErrors.append(f"Squirtle set_hp() logic error: {result}")
+                self.verificationErrors.append(f"PokemonBase set_hp() logic error: {result}")
+                return
         except Exception as e:
-            self.verificationErrors.append(f"Squirtle set_hp() failed {e}")
-            return
+            self.verificationErrors.append(f"PokemonBase set_hp() failed {e}")
 
     def test_get_hp(self):
-        """test correctness of PokeBase gett_hp()"""
+        """test correctness of PokemonBase gett_hp()"""
         try:
             result = PokemonBase.get_hp(MissingNo())
             if result != 24/3:
-                self.verificationErrors.append(f"MissingNo get_hp() logic error: {result}")
+                self.verificationErrors.append(f"PokemonBase get_hp() logic error: {result}")
         except Exception as e:
-            self.verificationErrors.append(f"MissingNo get_hp() failed {e}")
+            self.verificationErrors.append(f"PokemonBase get_hp() failed {e}")
             return
 
     def test_set_level(self):
-        """test correctness of PokeBase set_level()"""
+        """test correctness of PokemonBase set_level()"""
         try:
             c = Charmander()
         except Exception as e:
@@ -80,23 +91,22 @@ class TestPokemonBase(TesterBase):
             PokemonBase.set_level(c, 3)
             result = str(c)
             if result != "Charmander's HP = 7 and level = 3":
-                self.verificationErrors.append(f"Charmander set_level() logic error: {result}")
+                self.verificationErrors.append(f"PokemonBase set_level() logic error: {result}")
         except Exception as e:
-            self.verificationErrors.append(f"Charmander set_level() failed {e}")
-            return
+            self.verificationErrors.append(f"PokemonBase set_level() failed {e}")
 
     def test_get_level(self):
-        """test correctness of PokeBase get_level()"""
+        """test correctness of PokemonBase get_level()"""
         try:
             result = PokemonBase.get_level(MissingNo())
             if result != 1:
-                self.verificationErrors.append(f"MissingNo get_level() logic error: {result}")
+                self.verificationErrors.append(f"PokemonBase get_level() logic error: {result}")
         except Exception as e:
-            self.verificationErrors.append(f"MissingNo get_level() failed {e}")
+            self.verificationErrors.append(f"PokemonBase get_level() failed {e}")
             return
 
     def test_is_fainted(self):
-        """test correctness of PokeBase is_fainted()"""
+        """test correctness of PokemonBase is_fainted()"""
         try:
             c = Charmander()
         except Exception as e:
@@ -104,11 +114,14 @@ class TestPokemonBase(TesterBase):
             return
         try:
             c.set_hp(0)
+        except Exception as e:
+            self.verificationErrors.append(f"Charmander set_hp() failed {e}")
+        try:
             flag = PokemonBase.is_fainted(c)
             if flag != True:
-                self.verificationErrors.append(f"Charmander is_fainted() logic error: {flag}")
+                self.verificationErrors.append(f"PokemonBase is_fainted() logic error: {flag}")
         except Exception as e:
-            self.verificationErrors.append(f"Charmander is_fainted() failed {e}")
+            self.verificationErrors.append(f"PokemonBase is_fainted() failed {e}")
             return
 
         try:
@@ -119,9 +132,9 @@ class TestPokemonBase(TesterBase):
         try:
             flag = b.is_fainted()
             if flag != False:
-                self.verificationErrors.append(f"Is_faint method did not return correct float: {flag}")
+                self.verificationErrors.append(f"PokemonBase is_faint() logic error: {flag}")
         except Exception as e:
-            self.verificationErrors.append(f"Is_faint method failed. {e}")
+            self.verificationErrors.append(f"PokemonBase is_faint() failed. {e}")
             return 
 
     def test_damage_multiplier(self):
@@ -137,11 +150,11 @@ class TestPokemonBase(TesterBase):
             self.verificationErrors.append(f"Bulbasaur could not be instantiated: {str(e)}.")
             return
         try:
-            result = PokemonBase.damage_multiplier(c, b)
+            result = c.damage_multiplier(b)
             if result != 2:
-                self.verificationErrors.append(f"Charmander damage_multiplier() logic error: {result}")
+                self.verificationErrors.append(f"PokemonBase damage_multiplier() logic error: {result}")
         except Exception as e:
-            self.verificationErrors.append(f"Charmander damage_multiplier() failed {e}")
+            self.verificationErrors.append(f"PokemonBase damage_multiplier() failed {e}")
             return
 
 

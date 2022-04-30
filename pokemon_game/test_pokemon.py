@@ -1,13 +1,14 @@
 import unittest
 from pokemon import Bulbasaur, Squirtle, Charmander, GlitchMon, MissingNo
 from tester_base import TesterBase
+from random import seed
 
 
 class TestPokemon(TesterBase):
     """test Charmander"""
 
-    def test_charmander_string(self):
-        """test Charmander constructor and __str__ method """
+    def test_charmander_constr(self):
+        """test Charmander constructor"""
         try:
             c = Charmander()
         except Exception as e:
@@ -16,13 +17,13 @@ class TestPokemon(TesterBase):
         try:
             s = str(c)
             if s != "Charmander's HP = 7 and level = 1":
-                self.verificationErrors.append(f"String method did not return correct string: {s}")
+                self.verificationErrors.append(f"Charmander __init__ logic error: {s}")
         except Exception as e:
-            self.verificationErrors.append(f"String method failed. {e}")
+            self.verificationErrors.append(f"Charmander __str__() method failed. {e}")
             return 
 
     def test_char_attacked_by(self):
-        """test correction of Charmander attacked_by()"""
+        """test correctness of Charmander attacked_by()"""
         #test a Charmander's HP and level after being attacked by another Charmander
         try:
             c1 = Charmander()
@@ -64,6 +65,7 @@ class TestPokemon(TesterBase):
 
     def test_char_get_attack(self):
         """test correctness of Charmander get_attack()"""
+        #test attack of Charmander before level up
         try:
             c = Charmander()
         except Exception as e:
@@ -76,7 +78,7 @@ class TestPokemon(TesterBase):
         except Exception as e:
             self.verificationErrors.append(f"Charmander get_attack() failed {e}")
             return
-
+        #test attack of Charmander after level up
         try:
             c = Charmander()
         except Exception as e:
@@ -108,7 +110,7 @@ class TestPokemon(TesterBase):
 
     def test_char_get_speed(self):
         """test correctness of Charmander get_speed()"""
-        #test whether the get_speed method returns the correct speed of Charmander
+        #test speed of Charmander before level up
         try:
             c = Charmander()
         except Exception as e:
@@ -121,7 +123,7 @@ class TestPokemon(TesterBase):
         except Exception as e:
             self.verificationErrors.append(f"Charmander get_speed() failed {e}")
             return 
-        #test whether the get_speed method returns the correct speed of Charmander after leveling up
+        #test speed of Charmander after level up
         try:
             c.set_level(2)
             result = c.get_speed()
@@ -146,7 +148,7 @@ class TestPokemon(TesterBase):
         try:
             c.attacked_by(b)
         except Exception as e:
-            self.verificationErrors.append(f"attacked_by method failed: {str(e)}.")
+            self.verificationErrors.append(f"Charmander attacked_by() method failed: {str(e)}.")
             return
         try:
             result = c.has_fought()
@@ -157,8 +159,8 @@ class TestPokemon(TesterBase):
             return
 
     #test Bulbasaur
-    def test_bulbasaur_string(self):
-        """test Bulbasaur constructor and __str__ method"""
+    def test_bulbasaur_str(self):
+        """test correctness Bulbasaur constructor and __str__ method"""
         try:
             b = Bulbasaur()
         except Exception as e:
@@ -168,9 +170,9 @@ class TestPokemon(TesterBase):
         try:
             s = str(b)
             if s != "Bulbasaur's HP = 9 and level = 1":
-                self.verificationErrors.append(f"String method did not return correct string: {s}")
+                self.verificationErrors.append(f"Bulbasaur __str__() method did not return correct string: {s}")
         except Exception as e:
-            self.verificationErrors.append(f"String method failed. {e}")
+            self.verificationErrors.append(f"Bulbasaur __str__() method failed. {e}")
             return 
 
     def test_bulb_attacked_by(self):
@@ -230,7 +232,7 @@ class TestPokemon(TesterBase):
             return 
 
     def test_bulb_get_defence(self):
-        """test whether the get_defence method returns the correct defence value of Bulbasaur"""
+        """test correctness of Bulbasaur get_defence()"""
         try:
             b = Bulbasaur()
         except Exception as e:
@@ -245,10 +247,8 @@ class TestPokemon(TesterBase):
             return
 
     def test_bulb_get_speed(self):
-        """
-        test whether the get_speed method returns the correct speed of Bulbasaur
-        test whether the get_speed method returns the correct speed of Bulbasaur after leveling up
-        """
+        """test correctness of Bulbasaur get_speed()"""
+        #test whether the get_speed method returns the correct speed of Bulbasaur
         try:
             b = Bulbasaur()
         except Exception as e:
@@ -261,12 +261,8 @@ class TestPokemon(TesterBase):
         except Exception as e:
             self.verificationErrors.append(f"Bulbasaur get_speed() failed {e}")
             return 
-
-        try:
-            b = Bulbasaur()
-        except Exception as e:
-            self.verificationErrors.append(f"Bulbasaur could not be instantiated: {str(e)}.")
-            return
+        
+        #test whether the get_speed method returns the correct speed of Bulbasaur after leveling up
         try:
             b.set_level(2)
             result = b.get_speed()
@@ -302,31 +298,26 @@ class TestPokemon(TesterBase):
             return
 
     #test Squirtle
-
-    def test_squirtle_string(self):
-        """
-        test whether Squirtle is instantiated successfully
-        test whether Squirtle object is printed correctly
-        """
+    def test_squirtle_constr(self):
+        """test correctness of Squirtle constructor"""
+        #test Squirtle constructor
         try:
             c = Squirtle()
         except Exception as e:
             self.verificationErrors.append(f"Squirtle could not be instantiated: {str(e)}.")
             return
-
+        #test Squirtle __str__()
         try:
             s = str(c)
             if s != "Squirtle's HP = 8 and level = 1":
-                self.verificationErrors.append(f"String method did not return correct string: {s}")
+                self.verificationErrors.append(f"Squirtle __init__() logic error: {s}")
         except Exception as e:
-            self.verificationErrors.append(f"String method failed. {e}")
+            self.verificationErrors.append(f"Squirtle __str__() failed. {e}")
             return 
 
     def test_squir_attacked_by(self):
-        """
-        test the Squirtle's HP and level after being attacked by another Squirtle
-        test the Squirtle's HP and level after being attacked by Bulbasaur
-        """
+        """test correctness of Squirtle attacked_by()"""
+        #test the Squirtle's HP and level after being attacked by another Squirtle
         try:
             s1 = Squirtle()
         except Exception as e:
@@ -345,7 +336,7 @@ class TestPokemon(TesterBase):
         except Exception as e:
             self.verificationErrors.append(f"Squirtle attacked_by() Squirtle failed {e}")
             return
-
+        #test the Squirtle's HP and level after being attacked by Bulbasaur
         try:
             s = Squirtle()
         except Exception as e:
@@ -366,10 +357,8 @@ class TestPokemon(TesterBase):
             return
 
     def test_squir_get_attack(self):
-        """
-        test whether the get_attack method returns the correct attack stat of Squirtle
-        test whether the get_attack method returns the correct attack stat of Squirtle after leveling up
-        """
+        """test correctness of Squirtle get_attack()"""
+        #test whether the get_attack method returns the correct attack stat of Squirtle
         try:
             s = Squirtle()
         except Exception as e:
@@ -382,7 +371,7 @@ class TestPokemon(TesterBase):
         except Exception as e:
             self.verificationErrors.append(f"Squirtle get_attack() failed {e}")
             return
-
+        #test whether the get_attack method returns the correct attack stat of Squirtle after leveling up
         try:
             s = Squirtle()
         except Exception as e:
@@ -469,7 +458,7 @@ class TestPokemon(TesterBase):
 
     #test GlitchMon
 
-    def test_glitchmon_init(self): 
+    def test_glitchmon_constr(self): 
         """test correctness of GlitchMon constructor"""
         try:
             m = MissingNo()
@@ -487,9 +476,8 @@ class TestPokemon(TesterBase):
             return
     
     #test MissingNo
-
-    def test_missingno_string(self):
-        """test correctness of MissingNo constructor and __str__"""
+    def test_missingno_constr(self):
+        """test correctness of MissingNo constructor"""
         #test whether MissingNo is instantiated successfully
         try:
             m = MissingNo()
@@ -498,11 +486,10 @@ class TestPokemon(TesterBase):
             return
         #test whether MissingNo object is printed correctly
         try:
-            s = str(m)
-            if s != "MissingNo's HP = 8 and level = 1":
-                self.verificationErrors.append(f"String method did not return correct string: {s}")
+            if str(m) != "MissingNo's HP = 8 and level = 1":
+                self.verificationErrors.append(f"MissingNo __init__() logic error: {str(m)}")
         except Exception as e:
-            self.verificationErrors.append(f"String method failed. {e}")
+            self.verificationErrors.append(f"MissingNo __str__() failed. {e}")
 
     def test_missingno_get_attack(self):
         """test correctness of MissingNo get_attack()"""
@@ -561,6 +548,7 @@ class TestPokemon(TesterBase):
 
     def test_missingno_attacked_by(self):
         """test correctness of MissingNo attack_by()"""
+        seed(1)
         try:
             m = MissingNo()
         except Exception as e:
@@ -571,10 +559,10 @@ class TestPokemon(TesterBase):
             self.verificationErrors.append(f"failed to instantiate Charmander: {str(e)}.")
         try:
             m.attacked_by(c)
-            if m.get_hp() not in [24/3-7, 24/3-7+1]:
-                self.verificationErrors.append(f"wrong MissingNo HP after calling attacked_by(): {str(m.get_hp())}.")
-            if m.get_level() not in [1,2]:
-                self.verificationErrors.append(f"wrong MissingNo level after calling attacked_by(): {str(m.get_level())}.")
+            if m.get_hp() != 1:
+                self.verificationErrors.append(f"wrong MissingNo HP after calling attacked_by(): {str(m.get_hp())}")
+            if m.get_level() != 1:
+                self.verificationErrors.append(f"wrong MissingNo level after calling attacked_by(): {str(m.get_level())}")
         except Exception as e:
             self.verificationErrors.append(f": {str(e)}.")
 
@@ -593,7 +581,7 @@ class TestPokemon(TesterBase):
         try:
             m.attacked_by(s)
         except Exception as e:
-            self.verificationErrors.append(f"attacked_by method failed: {str(e)}.")
+            self.verificationErrors.append(f"MissingNo attacked_by() method failed: {str(e)}.")
             return
         try:
             result = m.has_fought()
@@ -601,10 +589,24 @@ class TestPokemon(TesterBase):
                 self.verificationErrors.append(f"MissingNo has_fought() logic error: {result}")
         except Exception as e:
             self.verificationErrors.append(f"MissingNo has_fought() failed {e}")
+
+
+    def test_missingno_superpower(self):
+        seed(0)
+        try:
+            m = MissingNo()
+        except Exception as e:
+            self.verificationErrors.append(f"MissingNo could not be instantiated: {str(e)}.")
             return
-        
-
-
+        try:
+            m.super_power()
+            if m.get_hp() != 8:
+                self.verificationErrors.append(f"wrong MissingNo HP after calling superpower(): {str(m.get_hp())}")
+            if m.get_level() != 2:
+                self.verificationErrors.append(f"wrong MissingNo level after calling super(): {str(m.get_level())}")
+        except Exception as e:
+            self.verificationErrors.append(f"MissingNo superpower() failed: {str(e)}.")
+            return
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestPokemon)
