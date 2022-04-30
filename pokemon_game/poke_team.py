@@ -143,10 +143,12 @@ class PokeTeam:
         :param arg2: number of Bulbasaur
         :param arg3: number of Squirtle 
         :param arg4: number of MissingNo
-        :complexity: best O(n), if mode_battle == 0 or 1
-                     worst O(n^2), if mode_battle == 2
-                     and populate_sorted_list() worst case happened
+        :complexity: best O(n), if mode_battle == 0 or 1,
                      where  n = sum(charm, bulb, squir, myst)
+                     worst O(char^2 + squir^2 + bulb^2), 
+                     if mode_battle == 2 and worst case of
+                     populate_sorted_list() happened
+                     
         """
         pokemon_num = charm + bulb + squir + myst # total number of pokemons
 
@@ -191,6 +193,14 @@ class PokeTeam:
         #Charmander
         for _ in range(charm):
             self.team.push(Charmander())
+
+    def all_has_fought(self):
+        """return True if all pokemon has fought else False
+        
+        :complexity: O(n), best = worst,
+                     where n = len(self.team)
+        """
+        return all([(self.team[i]).has_fought() for i in range(len(self.team))])
         
     def populate_queue(self, charm: int, bulb: int, squir: int, myst: int = 0) -> None:
         """ populate team with CircularQueue
@@ -225,9 +235,9 @@ class PokeTeam:
         :param arg2: number of Bulbasaur
         :param arg3: number of Squirtle 
         :param arg4: number of MissingNo
-        :complexity: best O(n), if index to add is always at the middle
-                     worst O(n^2), if index to add is always at 0
-                     where  n = sum(charm, squir, bulb, myst)
+        :complexity: best O(char*log char +bulb*log bulb+ squir*log squir),
+                     if index to add is always at the middle
+                     worst O(char^2 + squir^2 + bulb^2), if index to add is always at 0
         """
         self.team = ArraySortedList(PokeTeam.POKEMON_LIMIT) #instantiate ArraySortedList
 

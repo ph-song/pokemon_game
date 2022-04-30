@@ -7,7 +7,7 @@ from random import seed
 class TestPokemon(TesterBase):
     """test Charmander"""
 
-    def test_charmander_constr(self):
+    def test_char_constr(self):
         """test Charmander constructor"""
         try:
             c = Charmander()
@@ -17,7 +17,7 @@ class TestPokemon(TesterBase):
         try:
             s = str(c)
             if s != "Charmander's HP = 7 and level = 1":
-                self.verificationErrors.append(f"Charmander __init__ logic error: {s}")
+                self.verificationErrors.append(f"Charmander __init__() logic error: {s}")
         except Exception as e:
             self.verificationErrors.append(f"Charmander __str__() method failed. {e}")
             return 
@@ -159,8 +159,8 @@ class TestPokemon(TesterBase):
             return
 
     #test Bulbasaur
-    def test_bulbasaur_str(self):
-        """test correctness Bulbasaur constructor and __str__ method"""
+    def test_bulb_constr(self):
+        """test correctness Bulbasaur constructor"""
         try:
             b = Bulbasaur()
         except Exception as e:
@@ -170,7 +170,7 @@ class TestPokemon(TesterBase):
         try:
             s = str(b)
             if s != "Bulbasaur's HP = 9 and level = 1":
-                self.verificationErrors.append(f"Bulbasaur __str__() method did not return correct string: {s}")
+                self.verificationErrors.append(f"Bulbasaur __init__() logic error: {s}")
         except Exception as e:
             self.verificationErrors.append(f"Bulbasaur __str__() method failed. {e}")
             return 
