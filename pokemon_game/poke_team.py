@@ -5,14 +5,13 @@ Class: PokeTeam
 
 __author__ = "FIT1008 T03G06"
 
-
-from pokemon_game.game.pokemon import Charmander, Bulbasaur, MissingNo, Squirtle
-from pokemon_game.adt.queue_adt import CircularQueue
-from pokemon_game.adt.array_sorted_list import ArraySortedList
-from pokemon_game.adt.sorted_list import ListItem
-from pokemon_game.adt.stack_adt import ArrayStack
-from pokemon_game.game.pokemon_base import PokemonBase
 from typing import Type, Union
+from pokemon import Charmander, Bulbasaur, MissingNo, Squirtle
+from queue_adt import CircularQueue
+from array_sorted_list import ArraySortedList
+from sorted_list import ListItem
+from stack_adt import ArrayStack
+from pokemon_base import PokemonBase
 
 class PokeTeam: 
     POKEMON_LIMIT = 6

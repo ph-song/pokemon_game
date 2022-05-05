@@ -1,11 +1,11 @@
 import unittest
 
-from .tester_base import TesterBase, captured_output
+from tester_base import TesterBase, captured_output
 
 class TestTask2(TesterBase):
 
     def test_limit(self):
-        from pokemon_game.game.poke_team import PokeTeam
+        from poke_team import PokeTeam
         try:
             team = PokeTeam("Ash")
         except Exception as e:

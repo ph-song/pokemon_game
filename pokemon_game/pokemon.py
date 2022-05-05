@@ -5,9 +5,9 @@ Classes: Charmander, Bulbasaur, Squirtle, GlitchMon, MissingNo
 
 __author__ = "FIT1008 T03G06"
 
-from pokemon_game.game.pokemon_base import PokemonBase
 from typing import Type 
 from random import randint
+from pokemon_base import PokemonBase
 
 class Charmander(PokemonBase):
 

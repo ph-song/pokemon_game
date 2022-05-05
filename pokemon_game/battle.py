@@ -5,12 +5,13 @@ Class: Battle
 
 __author__ = "FIT1008 T03G06"
 
+
 from typing import Type
-from pokemon_game.game.poke_team import PokeTeam
-from pokemon_game.game.pokemon_base import PokemonBase
-from pokemon_game.adt.array_sorted_list import ArraySortedList
-from pokemon_game.adt.sorted_list import ListItem
-from pokemon_game.game.pokemon import MissingNo
+from poke_team import PokeTeam
+from pokemon_base import PokemonBase
+from array_sorted_list import ArraySortedList
+from sorted_list import ListItem
+from pokemon import MissingNo
 
 
 class Battle:
