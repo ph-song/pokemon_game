@@ -1,11 +1,12 @@
 import unittest
 
-from tester_base import TesterBase
+from .tester_base import TesterBase
 
 class TestTask1(TesterBase):
 
     def test_charmander_string(self):
-        from pokemon import Charmander
+        from pokemon_game.game.pokemon import Charmander
+    
         try:
             c = Charmander()
         except Exception as e:

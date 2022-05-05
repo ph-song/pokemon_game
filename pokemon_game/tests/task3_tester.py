@@ -1,11 +1,11 @@
 import unittest
 
-from tester_base import TesterBase, captured_output
+from .tester_base import TesterBase, captured_output
 
 class TestTask3(TesterBase):
 
     def test_battle_example(self):
-        from battle import Battle
+        from pokemon_game.game.battle import Battle
 
         try:
             b = Battle("Ash", "Misty")

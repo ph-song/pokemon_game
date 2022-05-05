@@ -126,4 +126,3 @@ class PokemonBase(ABC):
         """
         return PokemonBase.TYPE_EFFECTIVENESS[self.get_type()][defender.get_type()]
 
-
